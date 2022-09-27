@@ -28,7 +28,7 @@ public class PowerPlayTeleOp extends OpMode
     private boolean powerSwitching = false;
 
     // Pull the date of the file (to update the date of telemetry)
-    File file = new File("src/main/java/org/firstinspires/ftc/teamcode/PowerPlayTeleOp.java");
+    File file = new File("C:\\Users\\robotics1\\Desktop\\2023-PowerPlay\\TeamCode\\src\\main\\java\\org\\firstinspires\\ftc\\teamcode\\PowerPlayTeleOp.java");
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Override

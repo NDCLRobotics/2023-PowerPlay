@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 import java.io.File;
 import java.text.SimpleDateFormat;
 
+
 @TeleOp(name="Power Play TeleOp", group="Interactive Opmode")
 
 public class PowerPlayTeleOp extends OpMode
@@ -28,8 +29,8 @@ public class PowerPlayTeleOp extends OpMode
     private boolean powerSwitching = false;
 
     // Pull the date of the file (to update the date of telemetry)
-    File file = new File(System.getProperty("user.dir") + "\\sys");
-    File file2 = new File(System.getProperty("user.dir") + "\\system");
+    String temp = new File(PowerPlayTeleOp.class.getProtectionDomain().getCodeSource().getLocation().getPath()).toString();
+    File file = new File(temp + "\\TeamCode\\PowerPlayTeleOp.class");
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Override
@@ -52,20 +53,7 @@ public class PowerPlayTeleOp extends OpMode
         telemetry.addData("Last updated",sdf.format(file.lastModified()));
 
         // test stuff
-        String[] pathnames = file.list();
-
-        telemetry.addLine("Files in current directory (/sys):");
-        for (String pathname : pathnames)
-        {
-            telemetry.addLine(pathname);
-        }
-
-        telemetry.addLine("\nFiles in current directoyr (/system):");
-        pathnames = file2.list();
-        for (String pathname : pathnames)
-        {
-            telemetry.addLine(pathname);
-        }
+        telemetry.addLine(temp);
     }
 
     @Override

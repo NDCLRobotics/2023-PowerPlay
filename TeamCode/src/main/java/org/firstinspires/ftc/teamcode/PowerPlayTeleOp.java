@@ -28,7 +28,7 @@ public class PowerPlayTeleOp extends OpMode
     private boolean powerSwitching = false;
 
     // Pull the date of the file (to update the date of telemetry)
-    File file = new File("java\\org.firstinspires.ftc.teamcode\\PowerPlayTeleOp.java");
+    File file = new File("src\\main\\java\\org\\firstinspires\\ftc\\teamcode\\PowerPlayTeleOp.java");
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Override
@@ -47,8 +47,8 @@ public class PowerPlayTeleOp extends OpMode
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Send telemetry to the robot
-        telemetry.addData("","Working");
-        telemetry.addData("Last updated:",sdf.format(file.lastModified()));
+        telemetry.addLine("Working");
+        telemetry.addData("Last updated",sdf.format(file.lastModified()));
     }
 
     @Override

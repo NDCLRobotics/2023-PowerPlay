@@ -29,7 +29,7 @@ public class PowerPlayTeleOp extends OpMode
     private boolean powerSwitching = false;
 
     // Pull the date of the file (to update the date of telemetry)
-    String temp = new File(PowerPlayTeleOp.class.getProtectionDomain().getCodeSource().getLocation().getPath()).toString();
+    String temp = new File(OpMode.class.getProtectionDomain().getCodeSource().getLocation().getPath()).toString();
     File file = new File(temp + "\\TeamCode\\PowerPlayTeleOp.class");
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 

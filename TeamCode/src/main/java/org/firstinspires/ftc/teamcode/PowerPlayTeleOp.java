@@ -28,7 +28,7 @@ public class PowerPlayTeleOp extends OpMode
     private boolean powerSwitching = false;
 
     // Pull the date of the file (to update the date of telemetry)
-    File file = new File("C:\\Users\\robotics1\\Desktop\\2023-PowerPlay\\TeamCode\\src\\main\\java\\org\\firstinspires\\ftc\\teamcode\\PowerPlayTeleOp.java");
+    File file = new File(System.getProperty("user.dir"));
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Override
@@ -49,7 +49,15 @@ public class PowerPlayTeleOp extends OpMode
         // Send telemetry to the robot
         telemetry.addLine("Working");
         telemetry.addData("Last updated",sdf.format(file.lastModified()));
-        telemetry.addData("Working Direction",System.getProperty("user.dir"));
+
+        // test stuff
+        String[] pathnames = file.list();
+
+        telemetry.addLine("Files in current directory:");
+        for (String pathname : pathnames)
+        {
+            telemetry.addLine(pathname);
+        }
     }
 
     @Override

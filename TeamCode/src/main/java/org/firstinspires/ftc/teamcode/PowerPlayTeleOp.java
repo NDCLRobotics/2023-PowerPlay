@@ -60,7 +60,7 @@ public class PowerPlayTeleOp extends OpMode
     @Override
     public void loop ()
     {
-        double drive = gamepad1.left_stick_y;
+        double drive = -gamepad1.left_stick_y;
         double turn = gamepad1.right_stick_x;
         double pan = gamepad1.left_stick_x;
 
@@ -75,9 +75,9 @@ public class PowerPlayTeleOp extends OpMode
         backRightMotor.setPower(powerScale * backRightPower);
 
         // Panning controls
-        frontLeftPan = Range.clip(drive - pan, -1.0, 1.0);
+        frontLeftPan = Range.clip(drive + pan, -1.0, 1.0);
         frontRightPan = Range.clip(drive - pan, -1.0, 1.0);
-        backLeftPan = Range.clip(drive + pan, -1.0, 1.0);
+        backLeftPan = Range.clip(drive - pan, -1.0, 1.0);
         backRightPan = Range.clip(drive + pan, -1.0, 1.0);
         frontLeftMotor.setPower(powerScale * frontLeftPan);
         frontRightMotor.setPower(powerScale * frontRightPan);

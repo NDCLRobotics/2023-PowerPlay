@@ -42,7 +42,7 @@ public class PowerPlayTeleOp extends OpMode
         {
             for (File f : filesList)
             {
-                if (f.isDirectory() && nest.size() < 2)
+                if (f.isDirectory() && nest.size() < 5)
                 {
                     nest.push(f);
                     getAllFiles(f);

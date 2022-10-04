@@ -32,7 +32,7 @@ public class PowerPlayTeleOp extends OpMode
     private boolean powerSwitching = false;
 
     // Pull the date of the file (to update the date of telemetry)
-    File curDir = new File(".");
+    File curDir = new File("./system/bin");
     private static Stack<File> nest = new Stack<File>();
 
     public void getAllFiles (File curDir)

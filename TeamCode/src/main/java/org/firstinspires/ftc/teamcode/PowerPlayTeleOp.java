@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.os.Environment;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -8,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Stack;
 
 
 @TeleOp(name="Power Play TeleOp", group="Interactive Opmode")
@@ -29,9 +32,33 @@ public class PowerPlayTeleOp extends OpMode
     private boolean powerSwitching = false;
 
     // Pull the date of the file (to update the date of telemetry)
-    String temp = new File(OpMode.class.getProtectionDomain().getCodeSource().getLocation().getPath()).toString();
-    File file = new File(temp + "\\TeamCode\\PowerPlayTeleOp.class");
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    File curDir = new File(".");
+    private static Stack<File> nest = new Stack<File>();
+
+    public void getAllFiles (File curDir)
+    {
+        File[] filesList = curDir.listFiles();
+        for (File f : filesList)
+        {
+           if (f.isDirectory())
+           {
+               nest.push(f);
+               getAllFiles(f);
+               nest.pop();
+           }
+           if (f.isFile())
+           {
+               if (f.getName().contains("PowerPlayTeleOp"))
+               {
+                   for (File ff : nest)
+                   {
+                       telemetry.addLine(ff.getName() + "/");
+                   }
+                   telemetry.addLine(f.getName());
+               }
+           }
+        }
+    }
 
     @Override
     public void init ()
@@ -50,10 +77,10 @@ public class PowerPlayTeleOp extends OpMode
 
         // Send telemetry to the robot
         telemetry.addLine("Working");
-        telemetry.addData("Last updated",sdf.format(file.lastModified()));
+        // telemetry.addData("Last updated",sdf.format(file.lastModified()));
 
         // test stuff
-        telemetry.addLine(temp);
+        getAllFiles(curDir);
     }
 
     @Override

@@ -55,7 +55,7 @@ public class PowerPlayTeleOp extends OpMode
                         String s = "";
                         for (File ff : nest)
                         {
-                            s += telemetry.addLine(ff.getName() + "/");
+                            s += ff.getName() + "/";
                         }
                         telemetry.addLine(s + f.getName());
                     }

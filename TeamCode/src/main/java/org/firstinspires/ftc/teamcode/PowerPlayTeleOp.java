@@ -52,11 +52,12 @@ public class PowerPlayTeleOp extends OpMode
                 {
                     //if (f.getName().contains("PowerPlayTeleOp"))
                     {
+                        String s = "";
                         for (File ff : nest)
                         {
-                            telemetry.addLine(ff.getName() + "/");
+                            s += telemetry.addLine(ff.getName() + "/");
                         }
-                        telemetry.addLine(f.getName());
+                        telemetry.addLine(s + f.getName());
                     }
                 }
             }

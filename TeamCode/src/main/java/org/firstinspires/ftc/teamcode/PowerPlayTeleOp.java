@@ -50,7 +50,7 @@ public class PowerPlayTeleOp extends OpMode
                 }
                 else //if (f.isFile())
                 {
-                    if (f.getName().contains("java") || f.getName().contains("Java") || f.getName().contains("JAVA"))
+                    if (f.getName().contains("jar") || f.getName().contains("class") || f.getName().contains("apk"))
                     {
                         String s = "";
                         for (File ff : nest)

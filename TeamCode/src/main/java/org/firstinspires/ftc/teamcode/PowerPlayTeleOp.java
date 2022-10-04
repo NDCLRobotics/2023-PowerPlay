@@ -42,7 +42,7 @@ public class PowerPlayTeleOp extends OpMode
         {
             for (File f : filesList)
             {
-                if (f.isDirectory() && nest.size() < 3)
+                if (f.isDirectory())// && nest.size() < 3)
                 {
                     nest.push(f);
                     getAllFiles(f);
@@ -50,7 +50,7 @@ public class PowerPlayTeleOp extends OpMode
                 }
                 else //if (f.isFile())
                 {
-                    //if (f.getName().contains("PowerPlayTeleOp"))
+                    if (f.getName().contains("java") || f.getName().contains("Java") || f.getName().contains("JAVA"))
                     {
                         String s = "";
                         for (File ff : nest)

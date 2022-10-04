@@ -38,25 +38,28 @@ public class PowerPlayTeleOp extends OpMode
     public void getAllFiles (File curDir)
     {
         File[] filesList = curDir.listFiles();
-        for (File f : filesList)
+        if (filesList != null)
         {
-           if (f.isDirectory())
-           {
-               nest.push(f);
-               getAllFiles(f);
-               nest.pop();
-           }
-           if (f.isFile())
-           {
-               if (f.getName().contains("PowerPlayTeleOp"))
-               {
-                   for (File ff : nest)
-                   {
-                       telemetry.addLine(ff.getName() + "/");
-                   }
-                   telemetry.addLine(f.getName());
-               }
-           }
+            for (File f : filesList)
+            {
+                if (f.isDirectory())
+                {
+                    nest.push(f);
+                    getAllFiles(f);
+                    nest.pop();
+                }
+                if (f.isFile())
+                {
+                    if (f.getName().contains("PowerPlayTeleOp"))
+                    {
+                        for (File ff : nest)
+                        {
+                            telemetry.addLine(ff.getName() + "/");
+                        }
+                        telemetry.addLine(f.getName());
+                    }
+                }
+            }
         }
     }
 

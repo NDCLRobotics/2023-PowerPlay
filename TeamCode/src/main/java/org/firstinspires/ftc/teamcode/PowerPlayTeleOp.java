@@ -12,7 +12,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Stack;
 
-
 @TeleOp(name="Power Play TeleOp", group="Interactive Opmode")
 
 public class PowerPlayTeleOp extends OpMode
@@ -32,17 +31,18 @@ public class PowerPlayTeleOp extends OpMode
     private boolean powerSwitching = false;
 
     // Pull the date of the file (to update the date of telemetry)
-    File curDir = new File("./system/bin");
+    File curDir = new File("./system");
     private static Stack<File> nest = new Stack<File>();
 
     public void getAllFiles (File curDir)
     {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         File[] filesList = curDir.listFiles();
         if (filesList != null)
         {
             for (File f : filesList)
             {
-                if (f.isDirectory())// && nest.size() < 3)
+                if (f.isDirectory() && !f.getName().equals("bin"))// && nest.size() < 3)
                 {
                     nest.push(f);
                     getAllFiles(f);
@@ -50,14 +50,21 @@ public class PowerPlayTeleOp extends OpMode
                 }
                 else //if (f.isFile())
                 {
-                    if (f.getName().contains("jar") || f.getName().contains("class") || f.getName().contains("apk"))
+                    if (sdf.format(f.lastModified()).contains("2022"))
                     {
                         String s = "";
                         for (File ff : nest)
                         {
                             s += ff.getName() + "/";
                         }
-                        telemetry.addLine(s + f.getName());
+                        if (f.isDirectory())
+                        {
+                            telemetry.addLine(s + f.getName() + "/");
+                        }
+                        else
+                        {
+                            telemetry.addLine(s + f.getName() + " " + sdf.format(f.lastModified()));
+                        }
                     }
                 }
             }

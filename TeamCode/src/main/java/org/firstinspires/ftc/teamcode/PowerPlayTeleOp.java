@@ -152,11 +152,11 @@ public class PowerPlayTeleOp extends OpMode
         // Lift function (extremely basic, Nathan will replace later)
         if (gamepad1.left_bumper)
         {
-            liftMotor.setPower(0.4);
+            liftMotor.setPower(0.6);
         }
         else if (gamepad1.right_bumper)
         {
-            liftMotor.setPower(-0.4);
+            liftMotor.setPower(-0.6);
         }
         else
         {

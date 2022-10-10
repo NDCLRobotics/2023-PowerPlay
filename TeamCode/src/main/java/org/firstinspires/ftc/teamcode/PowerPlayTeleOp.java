@@ -21,6 +21,7 @@ public class PowerPlayTeleOp extends OpMode
     private DcMotor frontRightMotor = null;
     private DcMotor backLeftMotor = null;
     private DcMotor backRightMotor = null;
+    private DcMotor liftMotor = null;
 
     // Variables for power set to the drive and pan functions
     private double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
@@ -79,12 +80,14 @@ public class PowerPlayTeleOp extends OpMode
         frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
         backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
         backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
+        liftMotor = hardwareMap.dcMotor.get("liftMotor");
 
         // Set direction to the motors (may need to change depending on orientation of robot)
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Send telemetry to the robot
         telemetry.addLine("Working");
@@ -142,7 +145,18 @@ public class PowerPlayTeleOp extends OpMode
         {
             powerSwitching = false;
         }
-
+        if (gamepad1.right_trigger > 0)
+        {
+            liftMotor.setPower(1.0);
+        }
+        else if (gamepad1.left_trigger > 0 )
+        {
+            liftMotor.setPower(-1.0);
+    }
+        else
+        {
+            liftMotor.setPower(0.0);
+        }
         // Clamp for driving power scale
         powerScale = Range.clip(powerScale, 0.2, 1.0);
 
@@ -158,5 +172,6 @@ public class PowerPlayTeleOp extends OpMode
         frontRightMotor.setPower(0.0);
         backLeftMotor.setPower(0.0);
         backRightMotor.setPower(0.0);
+        liftMotor.setPower(0.0);
     }
 }

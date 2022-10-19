@@ -23,6 +23,9 @@ public class PowerPlayTeleOp extends OpMode
     private DcMotor backRightMotor = null;
     private DcMotor liftMotor = null;
 
+    private int liftMotorPos;
+    private int liftMotorZero;
+
     // Variables for power set to the drive and pan functions
     private double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
     private double frontLeftPan, frontRightPan, backLeftPan, backRightPan;
@@ -88,6 +91,8 @@ public class PowerPlayTeleOp extends OpMode
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        
+        liftMotorZero = liftMotor.getCurrentPosition();
 
         // Send telemetry to the robot
         telemetry.addLine("Working");
@@ -109,6 +114,8 @@ public class PowerPlayTeleOp extends OpMode
         double drive = -gamepad1.left_stick_y;
         double turn = gamepad1.right_stick_x;
         double pan = gamepad1.left_stick_x;
+
+        liftMotorPos = liftMotor.getCurrentPosition();
 
         // Driving controls
         frontLeftPower = Range.clip(drive + turn, -1.0, 1.0);

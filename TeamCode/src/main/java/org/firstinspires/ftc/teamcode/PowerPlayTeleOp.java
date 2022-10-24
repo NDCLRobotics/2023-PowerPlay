@@ -207,11 +207,11 @@ public class PowerPlayTeleOp extends OpMode
         {
             liftMotor.setPower(0.6);
         }
-        else if (liftMotorPos > liftMotorZero + 2000 && gamepad1.left_trigger > 0)
+        else if (liftMotorPos > liftMotorZero + 850 && gamepad1.left_trigger > 0)
         {
             liftMotor.setPower(-0.8);
         }
-        else if (liftMotorPos < liftMotorZero + 2000 && gamepad1.left_trigger > 0)
+        else if (liftMotorPos < liftMotorZero + 850 && gamepad1.left_trigger > 0)
         {
             liftMotor.setPower(-0.2);
         }

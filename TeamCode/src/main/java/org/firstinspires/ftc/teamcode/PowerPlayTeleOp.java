@@ -31,6 +31,10 @@ public class PowerPlayTeleOp extends OpMode
     double clawPos = 0.4;
     double rotatePos = -0.1;
 
+    // Frames
+    private long currentFrame;
+    private long startHomeFrame;
+
     // Variables for power set to the drive and pan functions
     private double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
     private double frontLeftPan, frontRightPan, backLeftPan, backRightPan;
@@ -122,8 +126,8 @@ public class PowerPlayTeleOp extends OpMode
         long centerTime = retractTime + 200; // How long it takes to center and lower arm
 
 
-        extendPos = -0.48;
-        spinPos = -0.0777;
+        clawPos = 0.1;
+        rotatePos = -0.1;
 
         // Lowers the lift motor until, it reaches the zero position
         if (liftMotorPos > liftMotorZero)

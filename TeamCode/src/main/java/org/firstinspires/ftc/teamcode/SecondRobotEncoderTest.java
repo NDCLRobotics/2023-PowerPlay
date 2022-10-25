@@ -68,20 +68,24 @@ public class SecondRobotEncoderTest extends OpMode
 
         if (gamepad1.b)
         {
-            frontLeftMotor.setTargetPosition(500);
-            frontRightMotor.setTargetPosition(500);
-            backLeftMotor.setTargetPosition(500);
-            backRightMotor.setTargetPosition(500);
+
+
+            
+            frontLeftMotor.setTargetPosition(-7596);
+            frontRightMotor.setTargetPosition(7596);
+            backLeftMotor.setTargetPosition(-7596);
+            backRightMotor.setTargetPosition(7596);
 
             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            frontLeftMotor.setPower(0.8);
-            frontRightMotor.setPower(0.8);
-            backLeftMotor.setPower(0.8);
-            backRightMotor.setPower(0.8);
+            frontLeftMotor.setPower(0.4);
+            frontRightMotor.setPower(0.4);
+            backLeftMotor.setPower(0.4);
+            backRightMotor.setPower(0.4);
+
         }
 
         // Output telemetry

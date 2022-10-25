@@ -22,9 +22,14 @@ public class PowerPlayTeleOp extends OpMode
     private DcMotor backLeftMotor = null;
     private DcMotor backRightMotor = null;
     private DcMotor liftMotor = null;
+    private CRServo clawServo = null;
+    private CRServo rotateServo = null;
 
     private int liftMotorPos;
     private int liftMotorZero;
+
+    double clawPos = 0.4;
+    double rotatePos = -0.1;
 
     // Variables for power set to the drive and pan functions
     private double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
@@ -85,13 +90,16 @@ public class PowerPlayTeleOp extends OpMode
         backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
 
+        clawServo = hardwareMap.crservo.get("clawServo");
+        rotateServo = hardwareMap.crservo.get("rotateServo");
+
         // Set direction to the motors (may need to change depending on orientation of robot)
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        
+
         liftMotorZero = liftMotor.getCurrentPosition();
 
         // Send telemetry to the robot
@@ -108,12 +116,49 @@ public class PowerPlayTeleOp extends OpMode
         // pls do
     }
 
+    private void autoHoming()
+    {
+        long retractTime = startHomeFrame + 100; // How long it takes to retract arm
+        long centerTime = retractTime + 200; // How long it takes to center and lower arm
+
+
+        extendPos = -0.48;
+        spinPos = -0.0777;
+
+        // Lowers the lift motor until, it reaches the zero position
+        if (liftMotorPos > liftMotorZero)
+        {
+            liftMotor.setPower(-0.6);
+        }
+        else
+        {
+            liftMotor.setPower(0.0);
+        }
+
+        if (currentFrame > startHomeFrame && currentFrame <= retractTime)
+        {
+            extendServo.setPower(extendPos);
+            telemetry.addData("Retracting","");
+        }
+        if (currentFrame > retractTime && currentFrame <= centerTime) // raising
+        {
+            spinServo.setPower(spinPos);
+            //liftMotor.setTargetPosition(liftMotorZero);
+            telemetry.addData("Centering and Lowering","");
+        }
+        if (currentFrame > centerTime)
+        {
+            // stop
+            autoHome = false;
+        }
+    }
+
     @Override
     public void loop ()
     {
         double drive = -gamepad1.left_stick_y;
         double turn = gamepad1.right_stick_x;
-        double pan = gamepad1.left_stick_x;
+        double pan = -gamepad1.left_stick_x;
 
         liftMotorPos = liftMotor.getCurrentPosition();
 
@@ -152,23 +197,68 @@ public class PowerPlayTeleOp extends OpMode
         {
             powerSwitching = false;
         }
-        if (gamepad1.right_trigger > 0)
+
+
+        if (liftMotorPos < liftMotorZero + 5750 && gamepad1.right_trigger > 0)
         {
             liftMotor.setPower(1.0);
         }
-        else if (gamepad1.left_trigger > 0 )
+        else if (liftMotorPos > liftMotorZero + 5750 && gamepad1.right_trigger > 0)
         {
-            liftMotor.setPower(-1.0);
-    }
+            liftMotor.setPower(0.6);
+        }
+        else if (liftMotorPos > liftMotorZero + 850 && gamepad1.left_trigger > 0)
+        {
+            liftMotor.setPower(-0.8);
+        }
+        else if (liftMotorPos < liftMotorZero + 850 && gamepad1.left_trigger > 0)
+        {
+            liftMotor.setPower(-0.2);
+        }
         else
         {
             liftMotor.setPower(0.0);
         }
+
+        if (liftMotorPos < liftMotorZero)
+        {
+            liftMotor.setPower(0.1);
+        }
+        if (liftMotorPos > liftMotorZero + 6500)
+        {
+            liftMotor.setPower(-0.2);
+        }
+
+
+        if (gamepad1.right_bumper) // Open position for claw
+        {
+            clawServo.setPower(0.1);
+        }
+        else if (gamepad1.left_bumper) // Closed position for claw
+        {
+            clawServo.setPower(0.48);
+        }
+
+        if (gamepad1.triangle) // Up position for claw
+        {
+            rotateServo.setPower(0.5);
+        }
+        if (gamepad1.cross) // Down for cargo grip
+        {
+            rotateServo.setPower(-0.7);
+        }
+        else if (gamepad1.square) // horizontal for cargo grip
+        {
+            rotateServo.setPower(rotatePos);
+        }
+
+
         // Clamp for driving power scale
         powerScale = Range.clip(powerScale, 0.2, 1.0);
 
         // Output telemetry
-        telemetry.addData("Power Scale:", powerScale);
+        telemetry.addLine("Power Scale:" + powerScale);
+        telemetry.addLine("Lift Position:" + liftMotorPos);
     }
 
     @Override

@@ -243,7 +243,7 @@ public class PowerPlayTeleOp extends OpMode
         }
         else if (gamepad2.left_bumper) // Closed position for claw
         {
-            clawServo.setPower(0.48);
+            clawServo.setPower(0.52);
         }
 
         if (gamepad2.triangle) // Up position for claw

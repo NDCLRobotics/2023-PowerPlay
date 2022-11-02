@@ -31,6 +31,10 @@ public class PowerPlayTeleOp extends OpMode
     double clawPos = 0.4;
     double rotatePos = -0.1;
 
+    // Frames
+    private long currentFrame;
+    private long startHomeFrame;
+
     // Variables for power set to the drive and pan functions
     private double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
     private double frontLeftPan, frontRightPan, backLeftPan, backRightPan;
@@ -38,6 +42,9 @@ public class PowerPlayTeleOp extends OpMode
     // Scale variable
     private double powerScale = 0.8;
     private boolean powerSwitching = false;
+
+
+    //private boolean powerSwitching = false;
 
     // Pull the date of the file (to update the date of telemetry)
     File curDir = new File("./system");
@@ -116,15 +123,14 @@ public class PowerPlayTeleOp extends OpMode
         // pls do
     }
 
-    /*
-    private void autoHoming()
+    /*private void autoHoming()
     {
         long retractTime = startHomeFrame + 100; // How long it takes to retract arm
         long centerTime = retractTime + 200; // How long it takes to center and lower arm
 
 
-        extendPos = -0.48;
-        spinPos = -0.0777;
+        clawPos = 0.1;
+        rotatePos = -0.1;
 
         // Lowers the lift motor until, it reaches the zero position
         if (liftMotorPos > liftMotorZero)
@@ -152,9 +158,7 @@ public class PowerPlayTeleOp extends OpMode
             // stop
             autoHome = false;
         }
-    }
-
-     */
+    }*/
 
     @Override
     public void loop ()
@@ -202,19 +206,19 @@ public class PowerPlayTeleOp extends OpMode
         }
 
 
-        if (liftMotorPos < liftMotorZero + 5750 && gamepad1.right_trigger > 0)
+        if (liftMotorPos < liftMotorZero + 5750 && gamepad2.right_trigger > 0)
         {
             liftMotor.setPower(1.0);
         }
-        else if (liftMotorPos > liftMotorZero + 5750 && gamepad1.right_trigger > 0)
+        else if (liftMotorPos > liftMotorZero + 5750 && gamepad2.right_trigger > 0)
         {
             liftMotor.setPower(0.6);
         }
-        else if (liftMotorPos > liftMotorZero + 850 && gamepad1.left_trigger > 0)
+        else if (liftMotorPos > liftMotorZero + 850 && gamepad2.left_trigger > 0)
         {
             liftMotor.setPower(-0.8);
         }
-        else if (liftMotorPos < liftMotorZero + 850 && gamepad1.left_trigger > 0)
+        else if (liftMotorPos < liftMotorZero + 850 && gamepad2.left_trigger > 0)
         {
             liftMotor.setPower(-0.2);
         }
@@ -233,24 +237,24 @@ public class PowerPlayTeleOp extends OpMode
         }
 
 
-        if (gamepad1.right_bumper) // Open position for claw
+        if (gamepad2.right_bumper) // Open position for claw
         {
             clawServo.setPower(0.1);
         }
-        else if (gamepad1.left_bumper) // Closed position for claw
+        else if (gamepad2.left_bumper) // Closed position for claw
         {
-            clawServo.setPower(0.52);
+            clawServo.setPower(0.48);
         }
 
-        if (gamepad1.triangle) // Up position for claw
+        if (gamepad2.triangle) // Up position for claw
         {
             rotateServo.setPower(0.5);
         }
-        if (gamepad1.cross) // Down for cargo grip
+        if (gamepad2.cross) // Down for cargo grip
         {
-            rotateServo.setPower(-0.72);
+            rotateServo.setPower(-0.7);
         }
-        else if (gamepad1.square) // horizontal for cargo grip
+        else if (gamepad2.square) // horizontal for cargo grip
         {
             rotateServo.setPower(rotatePos);
         }

@@ -116,6 +116,7 @@ public class PowerPlayTeleOp extends OpMode
         // pls do
     }
 
+    /*
     private void autoHoming()
     {
         long retractTime = startHomeFrame + 100; // How long it takes to retract arm
@@ -152,6 +153,8 @@ public class PowerPlayTeleOp extends OpMode
             autoHome = false;
         }
     }
+
+     */
 
     @Override
     public void loop ()
@@ -236,7 +239,7 @@ public class PowerPlayTeleOp extends OpMode
         }
         else if (gamepad1.left_bumper) // Closed position for claw
         {
-            clawServo.setPower(0.48);
+            clawServo.setPower(0.52);
         }
 
         if (gamepad1.triangle) // Up position for claw
@@ -245,7 +248,7 @@ public class PowerPlayTeleOp extends OpMode
         }
         if (gamepad1.cross) // Down for cargo grip
         {
-            rotateServo.setPower(-0.7);
+            rotateServo.setPower(-0.72);
         }
         else if (gamepad1.square) // horizontal for cargo grip
         {

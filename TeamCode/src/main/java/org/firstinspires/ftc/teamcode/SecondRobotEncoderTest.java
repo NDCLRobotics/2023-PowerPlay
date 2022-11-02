@@ -70,11 +70,11 @@ public class SecondRobotEncoderTest extends OpMode
         {
 
 
-            
-            frontLeftMotor.setTargetPosition(-7596);
+
+            frontLeftMotor.setTargetPosition(7596);
             frontRightMotor.setTargetPosition(7596);
             backLeftMotor.setTargetPosition(-7596);
-            backRightMotor.setTargetPosition(7596);
+            backRightMotor.setTargetPosition(-7596);
 
             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

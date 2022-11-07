@@ -292,6 +292,7 @@ public class PowerPlayTeleOp extends OpMode
 
         // Output telemetry
         telemetry.addLine("Power Scale:" + powerScale);
+        telemetry.addLine("Lift Power Scale:" + liftScale);
         telemetry.addLine("Lift Position:" + liftMotorPos);
     }
 

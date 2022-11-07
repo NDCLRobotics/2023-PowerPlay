@@ -48,6 +48,9 @@ public class PowerPlayTeleOp extends OpMode
 
     private boolean autoHome = false;
 
+    private boolean godMode = false;
+    private boolean switching = false;
+
     // Pull the date of the file (to update the date of telemetry)
     File curDir = new File("./system");
     private static Stack<File> nest = new Stack<File>();
@@ -115,6 +118,9 @@ public class PowerPlayTeleOp extends OpMode
         telemetry.addLine("Working");
         // telemetry.addData("Last updated",sdf.format(file.lastModified()));
 
+        currentFrame = 0;
+        startHomeFrame = 0;
+
         // test stuff
         getAllFiles(curDir);
     }
@@ -127,7 +133,7 @@ public class PowerPlayTeleOp extends OpMode
 
     private void autoHoming()
     {
-        long retractTime = startHomeFrame + 500; // How long it takes to retract arm
+        long retractTime = startHomeFrame + 250; // How long it takes to retract arm
 
         clawPos = 0.1;
         rotatePos = -0.1;
@@ -163,6 +169,9 @@ public class PowerPlayTeleOp extends OpMode
     @Override
     public void loop ()
     {
+
+        currentFrame += 1;
+
         double drive = -gamepad1.left_stick_y;
         double turn = gamepad1.right_stick_x;
         double pan = -gamepad1.left_stick_x;
@@ -206,23 +215,23 @@ public class PowerPlayTeleOp extends OpMode
         }
 
 
-        if (gamepad1.dpad_right && !liftPower)
+        if (gamepad2.dpad_up && !liftPower)
         {
             liftPower = true;
             liftScale += 0.2;
         }
-        if (gamepad1.dpad_left && !liftPower)
+        if (gamepad2.dpad_down && !liftPower)
         {
             liftPower = true;
             liftScale -= 0.2;
         }
-        if (!gamepad1.dpad_right && !gamepad1.dpad_left && liftPower)
+        if (!gamepad2.dpad_up && !gamepad2.dpad_down && liftPower)
         {
             liftPower = false;
         }
 
 
-        if (liftMotorPos < liftMotorZero + 5750 && gamepad2.right_trigger > 0)
+        if ((liftMotorPos < liftMotorZero + 5750 || godMode) && gamepad2.right_trigger > 0)
         {
             liftMotor.setPower(liftScale);
         }
@@ -230,7 +239,7 @@ public class PowerPlayTeleOp extends OpMode
         {
             liftMotor.setPower(0.6);
         }
-        else if (liftMotorPos > liftMotorZero + 850 && gamepad2.left_trigger > 0)
+        else if ((liftMotorPos > liftMotorZero + 850 || godMode) && gamepad2.left_trigger > 0)
         {
             liftMotor.setPower(-liftScale);
         }
@@ -243,11 +252,11 @@ public class PowerPlayTeleOp extends OpMode
             liftMotor.setPower(0.0);
         }
 
-        if (liftMotorPos < liftMotorZero)
+        if (liftMotorPos < liftMotorZero && !godMode)
         {
             liftMotor.setPower(0.1);
         }
-        if (liftMotorPos > liftMotorZero + 6500)
+        if (liftMotorPos > liftMotorZero + 6500 && !godMode)
         {
             liftMotor.setPower(-0.2);
         }
@@ -286,6 +295,20 @@ public class PowerPlayTeleOp extends OpMode
             autoHoming();
         }
 
+        if (gamepad2.right_stick_button && !switching)
+        {
+            switching = true;
+            godMode = !godMode;
+        }
+        if (!gamepad2.right_stick_button && switching)
+        {
+            switching = false;
+        }
+
+        if (gamepad1.triangle)
+        {
+            liftMotorZero = liftMotor.getCurrentPosition();
+        }
 
         // Clamp for driving power scale
         powerScale = Range.clip(powerScale, 0.2, 1.0);
@@ -294,6 +317,15 @@ public class PowerPlayTeleOp extends OpMode
         telemetry.addLine("Power Scale:" + powerScale);
         telemetry.addLine("Lift Power Scale:" + liftScale);
         telemetry.addLine("Lift Position:" + liftMotorPos);
+
+        if (godMode)
+        {
+            telemetry.addLine("I see no God up here... other than me");
+        }
+        else
+        {
+            telemetry.addLine("I see no God up here...");
+        }
     }
 
     @Override

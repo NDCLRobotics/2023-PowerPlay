@@ -43,8 +43,10 @@ public class PowerPlayTeleOp extends OpMode
     private double powerScale = 0.8;
     private boolean powerSwitching = false;
 
+    private double liftScale = 0.8;
+    private boolean liftPower = false;
 
-    //private boolean powerSwitching = false;
+    private boolean autoHome = false;
 
     // Pull the date of the file (to update the date of telemetry)
     File curDir = new File("./system");
@@ -123,11 +125,9 @@ public class PowerPlayTeleOp extends OpMode
         // pls do
     }
 
-    /*private void autoHoming()
+    private void autoHoming()
     {
-        long retractTime = startHomeFrame + 100; // How long it takes to retract arm
-        long centerTime = retractTime + 200; // How long it takes to center and lower arm
-
+        long retractTime = startHomeFrame + 500; // How long it takes to retract arm
 
         clawPos = 0.1;
         rotatePos = -0.1;
@@ -137,6 +137,10 @@ public class PowerPlayTeleOp extends OpMode
         {
             liftMotor.setPower(-0.6);
         }
+        else if (liftMotorPos < liftMotorZero)
+        {
+            liftMotor.setPower(0.2);
+        }
         else
         {
             liftMotor.setPower(0.0);
@@ -144,21 +148,17 @@ public class PowerPlayTeleOp extends OpMode
 
         if (currentFrame > startHomeFrame && currentFrame <= retractTime)
         {
-            extendServo.setPower(extendPos);
-            telemetry.addData("Retracting","");
+            clawServo.setPower(clawPos);
+            rotateServo.setPower(rotatePos);
+            telemetry.addData("Claw Reposition","");
         }
-        if (currentFrame > retractTime && currentFrame <= centerTime) // raising
-        {
-            spinServo.setPower(spinPos);
-            //liftMotor.setTargetPosition(liftMotorZero);
-            telemetry.addData("Centering and Lowering","");
-        }
-        if (currentFrame > centerTime)
+
+        if (currentFrame > retractTime)
         {
             // stop
             autoHome = false;
         }
-    }*/
+    }
 
     @Override
     public void loop ()
@@ -206,9 +206,25 @@ public class PowerPlayTeleOp extends OpMode
         }
 
 
+        if (gamepad1.dpad_right && !liftPower)
+        {
+            liftPower = true;
+            liftScale += 0.2;
+        }
+        if (gamepad1.dpad_left && !liftPower)
+        {
+            liftPower = true;
+            liftScale -= 0.2;
+        }
+        if (!gamepad1.dpad_right && !gamepad1.dpad_left && liftPower)
+        {
+            liftPower = false;
+        }
+
+
         if (liftMotorPos < liftMotorZero + 5750 && gamepad2.right_trigger > 0)
         {
-            liftMotor.setPower(1.0);
+            liftMotor.setPower(liftScale);
         }
         else if (liftMotorPos > liftMotorZero + 5750 && gamepad2.right_trigger > 0)
         {
@@ -216,7 +232,7 @@ public class PowerPlayTeleOp extends OpMode
         }
         else if (liftMotorPos > liftMotorZero + 850 && gamepad2.left_trigger > 0)
         {
-            liftMotor.setPower(-0.8);
+            liftMotor.setPower(-liftScale);
         }
         else if (liftMotorPos < liftMotorZero + 850 && gamepad2.left_trigger > 0)
         {
@@ -243,7 +259,7 @@ public class PowerPlayTeleOp extends OpMode
         }
         else if (gamepad2.left_bumper) // Closed position for claw
         {
-            clawServo.setPower(0.48);
+            clawServo.setPower(0.52);
         }
 
         if (gamepad2.triangle) // Up position for claw
@@ -257,6 +273,17 @@ public class PowerPlayTeleOp extends OpMode
         else if (gamepad2.square) // horizontal for cargo grip
         {
             rotateServo.setPower(rotatePos);
+        }
+
+        if (gamepad2.circle || autoHome)
+        {
+            if (!autoHome)
+            {
+                startHomeFrame = currentFrame;
+            }
+
+            autoHome = true;
+            autoHoming();
         }
 
 

@@ -133,7 +133,7 @@ public class PowerPlayTeleOp extends OpMode
 
     private void autoHoming()
     {
-        long retractTime = startHomeFrame + 250; // How long it takes to retract arm
+        long retractTime = startHomeFrame + 300; // How long it takes to retract arm
 
         clawPos = 0.1;
         rotatePos = -0.1;
@@ -141,7 +141,7 @@ public class PowerPlayTeleOp extends OpMode
         // Lowers the lift motor until, it reaches the zero position
         if (liftMotorPos > liftMotorZero)
         {
-            liftMotor.setPower(-0.6);
+            liftMotor.setPower(-0.8);
         }
         else if (liftMotorPos < liftMotorZero)
         {
@@ -295,12 +295,12 @@ public class PowerPlayTeleOp extends OpMode
             autoHoming();
         }
 
-        if (gamepad2.right_stick_button && !switching)
+        if (gamepad2.right_stick_button && gamepad2.left_stick_button && !switching)
         {
             switching = true;
             godMode = !godMode;
         }
-        if (!gamepad2.right_stick_button && switching)
+        if (!gamepad2.right_stick_button && !gamepad2.left_stick_button && switching)
         {
             switching = false;
         }

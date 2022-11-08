@@ -133,7 +133,7 @@ public class PowerPlayTeleOp extends OpMode
 
     private void autoHoming()
     {
-        long retractTime = startHomeFrame + 300; // How long it takes to retract arm
+        long retractTime = startHomeFrame + 225; // How long it takes to retract arm
 
         clawPos = 0.1;
         rotatePos = -0.1;
@@ -274,6 +274,7 @@ public class PowerPlayTeleOp extends OpMode
         if (gamepad2.triangle) // Up position for claw
         {
             rotateServo.setPower(0.5);
+            clawServo.setPower(0.52);
         }
         if (gamepad2.cross) // Down for cargo grip
         {
@@ -305,7 +306,7 @@ public class PowerPlayTeleOp extends OpMode
             switching = false;
         }
 
-        if (gamepad1.triangle)
+        if (gamepad1.triangle && gamepad2.circle)
         {
             liftMotorZero = liftMotor.getCurrentPosition();
         }

@@ -284,7 +284,7 @@ public class PowerPlayTeleOp extends OpMode
             rotateServo.setPower(rotatePos);
         }
 
-        if (gamepad2.circle || autoHome)
+        if (gamepad2.touchpad || autoHome)
         {
             if (!autoHome)
             {

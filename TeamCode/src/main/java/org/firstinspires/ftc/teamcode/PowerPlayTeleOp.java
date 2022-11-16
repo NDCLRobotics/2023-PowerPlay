@@ -142,37 +142,19 @@ public class PowerPlayTeleOp extends OpMode
 
     private void autoHoming()
     {
-        long retractTime = startHomeFrame + 225; // How long it takes to retract arm
 
-        clawPos = 0.1;
-        rotatePos = -0.1;
+        clawServo.setPower(0.52);
+        rotateServo.setPower(-0.1);
 
         // Lowers the lift motor until, it reaches the zero position
-        if (liftMotorPos > liftMotorZero)
+        while (liftMotorPos > liftMotorZero)
         {
-            liftMotor.setPower(-0.8);
-        }
-        else if (liftMotorPos < liftMotorZero)
-        {
-            liftMotor.setPower(0.2);
-        }
-        else
-        {
-            liftMotor.setPower(0.0);
+            liftMotor.setPower(-0.7);
         }
 
-        if (currentFrame > startHomeFrame && currentFrame <= retractTime)
-        {
-            clawServo.setPower(clawPos);
-            rotateServo.setPower(rotatePos);
-            telemetry.addData("Claw Reposition","");
-        }
 
-        if (currentFrame > retractTime)
-        {
             // stop
-            autoHome = false;
-        }
+        autoHome = false;
     }
 
     @Override
@@ -350,7 +332,7 @@ public class PowerPlayTeleOp extends OpMode
     @Override
     public void stop ()
     {
-        // I don't know how many years in a row I have to reiterate this, pls do
+        // I don't know how many years in a row I have to reiterate this, pls do... I second this
         frontLeftMotor.setPower(0.0);
         frontRightMotor.setPower(0.0);
         backLeftMotor.setPower(0.0);

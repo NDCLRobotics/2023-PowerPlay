@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.util.Range;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -25,11 +26,16 @@ public class PowerPlayTeleOp extends OpMode
     private CRServo clawServo = null;
     private CRServo rotateServo = null;
 
+    RevBlinkinLedDriver ledLights;
+
+
+
     private int liftMotorPos;
     private int liftMotorZero;
 
     double clawPos = 0.4;
     double rotatePos = -0.1;
+    double lightValue = 0.91;
 
     // Frames
     private long currentFrame;
@@ -104,6 +110,9 @@ public class PowerPlayTeleOp extends OpMode
 
         clawServo = hardwareMap.crservo.get("clawServo");
         rotateServo = hardwareMap.crservo.get("rotateServo");
+
+        ledLights = hardwareMap.get(RevBlinkinLedDriver.class, "ledLights");
+        ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
 
         // Set direction to the motors (may need to change depending on orientation of robot)
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -309,6 +318,15 @@ public class PowerPlayTeleOp extends OpMode
         if (gamepad1.triangle && gamepad2.circle)
         {
             liftMotorZero = liftMotor.getCurrentPosition();
+        }
+
+        if (gamepad1.dpad_left)
+        {
+            ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+        }
+        if (gamepad1.dpad_right)
+        {
+            ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
         }
 
         // Clamp for driving power scale

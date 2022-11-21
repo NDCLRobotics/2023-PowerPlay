@@ -42,6 +42,11 @@ public class PowerPlayAutonomous extends OpMode
     private CRServo clawServo = null;
     private CRServo rotateServo = null;
 
+    private BNO055IMU imu;
+    private Orientation lastAngles = new Orientation();
+    private float zeroAngle, currentAngle, finalRotAngleM2;
+
+
     @Override
 
     public void init ()
@@ -69,7 +74,6 @@ public class PowerPlayAutonomous extends OpMode
 
 
 
-
         // Reset the encoder count - intialize to 0
         frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -81,6 +85,22 @@ public class PowerPlayAutonomous extends OpMode
         // Send telemetry to the robot
         telemetry.addLine("Working");
         // telemetry.addData("Last updated",sdf.format(file.lastModified()));
+
+        //imu learning attempt
+        //turning variables (M# = move #)
+
+        float currentAngle, panningAngle;
+        float finalRotAngleM2 = -84.18f;
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled = false;
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+
+
     }
 
     @Override
@@ -100,12 +120,7 @@ public class PowerPlayAutonomous extends OpMode
         boolean finishedTurning = false;
 
 
-        //imu learning attempt
-        //turning variables (M# = move #)
-        BNO055IMU imu = null;
-        Orientation lastAngles = new Orientation();
-        float currentAngle, panningAngle;
-        float finalRotAngleM2 = 84.18f;
+
 
 
 
@@ -114,8 +129,18 @@ public class PowerPlayAutonomous extends OpMode
         backLeftMotor.setPower(0.3);
         backRightMotor.setPower(0.3);
 
-        liftMotor.setPower(0.4);
+        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
+        currentAngle = lastAngles.firstAngle - zeroAngle;
 
+
+        liftMotor.setPower(0.4);
+        currentAngle = lastAngles.firstAngle - zeroAngle;
+        telemetry.addData("Current Y angle",lastAngles.firstAngle);
+        telemetry.addData("Current X angle",lastAngles.secondAngle);
+        telemetry.addData("Current Z angle",lastAngles.thirdAngle);
+        telemetry.addData("zero angle",zeroAngle);
+
+        /*
         //move1: Forward
 
         if (!move1Finished && !move2Finished && !move3Finished)
@@ -162,13 +187,17 @@ public class PowerPlayAutonomous extends OpMode
             telemetry.addLine("First move completed successfully!");
 
 
-            lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
             float zeroAngle = lastAngles.firstAngle;
             currentAngle = lastAngles.firstAngle - zeroAngle;
 
-            while (currentAngle < finalRotAngleM2)
+            finalRotAngleM2 = 76.25f;
+
+            if (currentAngle < finalRotAngleM2)
             {
 
+                currentAngle = lastAngles.firstAngle - zeroAngle;
+                telemetry.addData("Current angle",currentAngle);
                 frontLeftMotor.setTargetPosition(-2595);
                 frontRightMotor.setTargetPosition(2595);
                 backLeftMotor.setTargetPosition(-2559);
@@ -180,10 +209,6 @@ public class PowerPlayAutonomous extends OpMode
                 backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             }
-            frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             if (currentAngle > finalRotAngleM2)
             {
                 move2Finished = true;
@@ -213,7 +238,7 @@ public class PowerPlayAutonomous extends OpMode
         {
             telemetry.addLine("Task failed successfully!");
         }
-
+*/
 
 
     }

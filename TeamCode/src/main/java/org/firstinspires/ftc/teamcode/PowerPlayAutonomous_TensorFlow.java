@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -195,12 +193,24 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         // Telemetry outputs
                         telemetry.addData("Rotation", currentAngle);
                         telemetry.addData("Current Step", step);
+                        telemetry.addLine("\nWheels:");
+                        telemetry.addData("Front Left", frontLeftMotor.getCurrentPosition());
+                        telemetry.addData("Front Right", frontRightMotor.getCurrentPosition());
+                        telemetry.addData("Back Left", backLeftMotor.getCurrentPosition());
+                        telemetry.addData("Back Right", backRightMotor.getCurrentPosition());
+
+                        // Set power to motors
+                        frontLeftMotor.setPower(0.4);
+                        frontRightMotor.setPower(0.4);
+                        backLeftMotor.setPower(0.4);
+                        backRightMotor.setPower(0.4);
 
                         // -----------------------------
                         // Actual Autonomous begins here
 
                         if (step == 0) // Move forward
                         {
+                            telemetry.addLine("we made it into the if statement bois");
                             frontLeftMotor.setTargetPosition(2000);
                             frontRightMotor.setTargetPosition(2000);
                             backLeftMotor.setTargetPosition(2000);
@@ -219,6 +229,8 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+                            telemetry.addLine("we made it to the end of the if statement bois");
+
                             if (Math.abs(frontLeftMotor.getCurrentPosition() - 2000) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - 2000) < 5 &&
                                     Math.abs(backLeftMotor.getCurrentPosition() - 2000) < 5 && Math.abs(backRightMotor.getCurrentPosition() - 2000) < 5)
                             {
@@ -230,6 +242,8 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 step++;
                             }
                         }
+
+                        telemetry.addLine("we made it past the if statement bois");
 
                         if (step == 1) // Turn left 90 degrees
                         {

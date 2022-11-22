@@ -259,15 +259,15 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         {
                             finalRotAngle = 76.25f;
 
-                            frontLeftMotor.setPower(-0.4);
-                            frontRightMotor.setPower(0.4);
-                            backLeftMotor.setPower(-0.4);
-                            backRightMotor.setPower(0.4);
-
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+                            frontLeftMotor.setPower(-0.4);
+                            frontRightMotor.setPower(0.4);
+                            backLeftMotor.setPower(-0.4);
+                            backRightMotor.setPower(0.4);
 
                             if (currentAngleY >= finalRotAngle)
                             {
@@ -282,9 +282,12 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                                 rotateServo.setPower(-0.7);
-                                clawServo.setPower(0.1);
 
-                                step++;
+                                if (rotateServo.getPower() < -0.65)
+                                {
+                                    clawServo.setPower(0.1);
+                                    step++;
+                                }
                             }
                         }
 

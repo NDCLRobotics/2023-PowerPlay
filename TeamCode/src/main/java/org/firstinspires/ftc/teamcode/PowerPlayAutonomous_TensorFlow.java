@@ -261,7 +261,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-                            if (currentAngle >= finalRotAngle)
+                            if (currentAngle <= finalRotAngle)
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);

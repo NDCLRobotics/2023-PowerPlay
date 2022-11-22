@@ -220,10 +220,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 0) // Move forward
                         {
-                            frontLeftMotor.setTargetPosition(2000);
-                            frontRightMotor.setTargetPosition(2000);
-                            backLeftMotor.setTargetPosition(2000);
-                            backRightMotor.setTargetPosition(2000);
+                            frontLeftMotor.setTargetPosition(1800);
+                            frontRightMotor.setTargetPosition(1800);
+                            backLeftMotor.setTargetPosition(1800);
+                            backRightMotor.setTargetPosition(1800);
 
                             // test number, do calculations
                             liftMotor.setTargetPosition(3500);

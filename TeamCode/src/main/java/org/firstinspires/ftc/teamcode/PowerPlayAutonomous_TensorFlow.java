@@ -161,7 +161,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
+            lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
             zeroAngle = lastAngles.firstAngle;
 
             while (opModeIsActive()) {
@@ -187,7 +187,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         }
                         telemetry.update();
 
-                        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
+                        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
                         currentAngle = lastAngles.firstAngle - zeroAngle;
 
                         // Telemetry outputs

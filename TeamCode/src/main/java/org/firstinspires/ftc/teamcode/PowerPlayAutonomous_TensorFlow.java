@@ -193,11 +193,12 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         // Telemetry outputs
                         telemetry.addData("Rotation", currentAngle);
                         telemetry.addData("Current Step", step);
-                        telemetry.addLine("\nWheels:");
+                        telemetry.addLine("\nMotors:");
                         telemetry.addData("Front Left", frontLeftMotor.getCurrentPosition());
                         telemetry.addData("Front Right", frontRightMotor.getCurrentPosition());
                         telemetry.addData("Back Left", backLeftMotor.getCurrentPosition());
                         telemetry.addData("Back Right", backRightMotor.getCurrentPosition());
+                        telemetry.addData("Lift", liftMotor.getCurrentPosition());
 
                         // Set power to motors
                         frontLeftMotor.setPower(0.4);
@@ -237,6 +238,11 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+                                frontLeftMotor.setPower(0.0);
+                                frontRightMotor.setPower(0.0);
+                                backLeftMotor.setPower(0.0);
+                                backRightMotor.setPower(0.0);
+
                                 step++;
                             }
                         }
@@ -244,18 +250,24 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         if (step == 1) // Turn left 90 degrees
                         {
                             finalRotAngle = 76.25f;
-                            frontLeftMotor.setTargetPosition(-2595);
-                            frontRightMotor.setTargetPosition(2595);
-                            backLeftMotor.setTargetPosition(-2559);
-                            backRightMotor.setTargetPosition(2559);
 
-                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            frontLeftMotor.setPower(-0.4);
+                            frontRightMotor.setPower(0.4);
+                            backLeftMotor.setPower(-0.4);
+                            backRightMotor.setPower(0.4);
+
+                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                            frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                            backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                            backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
                             if (currentAngle >= finalRotAngle)
                             {
+                                frontLeftMotor.setPower(0.0);
+                                frontRightMotor.setPower(0.0);
+                                backLeftMotor.setPower(0.0);
+                                backRightMotor.setPower(0.0);
+
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

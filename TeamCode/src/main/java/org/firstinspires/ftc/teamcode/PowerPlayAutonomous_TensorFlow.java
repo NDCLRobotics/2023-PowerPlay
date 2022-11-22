@@ -43,11 +43,12 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
     /// IMU
     private BNO055IMU imu;
     private Orientation lastAngles = new Orientation();
-    private float zeroAngle, currentAngle, finalRotAngle = 64.18f;
-    private float zeroAngle2, zeroAngle3, currentAngle2, currentAngle3; // temporary variables for testing
+    private float currentAngleX, currentAngleY, currentAngleZ;
+    private float zeroAngleX, zeroAngleY, zeroAngleZ;
+    private float finalRotAngle = 64.18f;
 
     /// Step Counter
-    private int step = -1;
+    private int step = 0;
 
     /*
      * Specify the source for the Tensor Flow Model.
@@ -163,9 +164,9 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
         if (opModeIsActive()) {
             lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-            zeroAngle = lastAngles.firstAngle;
-            zeroAngle2 = lastAngles.secondAngle;
-            zeroAngle3 = lastAngles.thirdAngle;
+            zeroAngleX = lastAngles.firstAngle;
+            zeroAngleY = lastAngles.secondAngle;
+            zeroAngleZ = lastAngles.thirdAngle;
 
             while (opModeIsActive()) {
                 if (tfod != null) {
@@ -191,14 +192,14 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         telemetry.update();
 
                         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-                        currentAngle = lastAngles.firstAngle - zeroAngle;
-                        currentAngle2 = lastAngles.secondAngle - zeroAngle2;
-                        currentAngle3 = lastAngles.thirdAngle - zeroAngle3;
+                        currentAngleX = lastAngles.firstAngle - zeroAngleX;
+                        currentAngleY = lastAngles.secondAngle - zeroAngleY;
+                        currentAngleZ = lastAngles.thirdAngle - zeroAngleZ;
 
                         // Telemetry outputs
-                        telemetry.addData("X Rotation", currentAngle);
-                        telemetry.addData("Y Rotation", currentAngle2);
-                        telemetry.addData("Z Rotation", currentAngle3);
+                        telemetry.addData("X Rotation", currentAngleX);
+                        telemetry.addData("Y Rotation", currentAngleY);
+                        telemetry.addData("Z Rotation", currentAngleZ);
                         telemetry.addData("Current Step", step);
                         telemetry.addLine("\nMotors:");
                         telemetry.addData("Front Left", frontLeftMotor.getCurrentPosition());
@@ -268,7 +269,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-                            if (currentAngle <= finalRotAngle)
+                            if (currentAngleY >= finalRotAngle)
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);

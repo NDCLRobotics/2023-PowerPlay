@@ -187,7 +187,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         }
                         telemetry.update();
 
-                        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
                         currentAngle = lastAngles.firstAngle - zeroAngle;
 
                         // Telemetry outputs
@@ -204,13 +204,13 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         frontRightMotor.setPower(0.4);
                         backLeftMotor.setPower(0.4);
                         backRightMotor.setPower(0.4);
+                        liftMotor.setPower(0.4);
 
                         // -----------------------------
                         // Actual Autonomous begins here
 
                         if (step == 0) // Move forward
                         {
-                            telemetry.addLine("we made it into the if statement bois");
                             frontLeftMotor.setTargetPosition(2000);
                             frontRightMotor.setTargetPosition(2000);
                             backLeftMotor.setTargetPosition(2000);
@@ -229,8 +229,6 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            telemetry.addLine("we made it to the end of the if statement bois");
-
                             if (Math.abs(frontLeftMotor.getCurrentPosition() - 2000) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - 2000) < 5 &&
                                     Math.abs(backLeftMotor.getCurrentPosition() - 2000) < 5 && Math.abs(backRightMotor.getCurrentPosition() - 2000) < 5)
                             {
@@ -242,8 +240,6 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 step++;
                             }
                         }
-
-                        telemetry.addLine("we made it past the if statement bois");
 
                         if (step == 1) // Turn left 90 degrees
                         {
@@ -279,6 +275,12 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                     }
                 }
             }
+            // Stop function - cancel all power to the motors
+            frontLeftMotor.setPower(0.0);
+            frontRightMotor.setPower(0.0);
+            backLeftMotor.setPower(0.0);
+            backRightMotor.setPower(0.0);
+            liftMotor.setPower(0.0);
         }
     }
 

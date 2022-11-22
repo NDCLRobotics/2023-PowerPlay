@@ -47,8 +47,9 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
     private float zeroAngleX, zeroAngleY, zeroAngleZ;
     private float finalRotAngle = 64.18f;
 
-    /// Step Counter
+    // Other
     private int step = 0;
+    private int driveDistance;
 
     /*
      * Specify the source for the Tensor Flow Model.
@@ -220,10 +221,12 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 0) // Move forward
                         {
-                            frontLeftMotor.setTargetPosition(1800);
-                            frontRightMotor.setTargetPosition(1800);
-                            backLeftMotor.setTargetPosition(1800);
-                            backRightMotor.setTargetPosition(1800);
+                            driveDistance = 1800;
+
+                            frontLeftMotor.setTargetPosition(driveDistance);
+                            frontRightMotor.setTargetPosition(driveDistance);
+                            backLeftMotor.setTargetPosition(driveDistance);
+                            backRightMotor.setTargetPosition(driveDistance);
 
                             // test number, do calculations
                             liftMotor.setTargetPosition(3500);
@@ -238,8 +241,8 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (Math.abs(frontLeftMotor.getCurrentPosition() - 1800) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - 1800) < 5 &&
-                                    Math.abs(backLeftMotor.getCurrentPosition() - 1800) < 5 && Math.abs(backRightMotor.getCurrentPosition() - 1800) < 5)
+                            if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - driveDistance) < 5 &&
+                                    Math.abs(backLeftMotor.getCurrentPosition() - driveDistance) < 5 && Math.abs(backRightMotor.getCurrentPosition() - driveDistance) < 5)
                             {
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

@@ -254,7 +254,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 505)
+                            if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 355)
                             {
                                 if (!beganSmoothTravel)
                                 {

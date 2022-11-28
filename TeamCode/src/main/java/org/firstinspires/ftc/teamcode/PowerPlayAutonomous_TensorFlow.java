@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 import java.util.ArrayList;
+import java.lang.Math;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -50,6 +51,9 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
     // Other
     private int step = 0;
     private int driveDistance;
+    private boolean beganSmoothTravel = false;
+    private long initTime;
+    private double desiredTime, smoothSpeed;
 
     /*
      * Specify the source for the Tensor Flow Model.
@@ -93,6 +97,11 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
      * Detection engine.
      */
     private TFObjectDetector tfod;
+
+    private double smoothTravel (double desiredTime, double speed, long initialTime)
+    {
+        return (0.4/desiredTime) * Math.exp(-initialTime/desiredTime);
+    }
 
     @Override
     public void runOpMode() {
@@ -208,13 +217,17 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         telemetry.addData("Back Left", backLeftMotor.getCurrentPosition());
                         telemetry.addData("Back Right", backRightMotor.getCurrentPosition());
                         telemetry.addData("Lift", liftMotor.getCurrentPosition());
+                        telemetry.addLine("\nServos");
+                        telemetry.addData("Claw", clawServo.getPower());
+                        telemetry.addData("Rotation", rotateServo.getPower());
+                        telemetry.addLine(""); // blank space to create gap between final of this output and TensorFlow stuff
 
                         // Set power to motors
                         frontLeftMotor.setPower(0.4);
                         frontRightMotor.setPower(0.4);
                         backLeftMotor.setPower(0.4);
                         backRightMotor.setPower(0.4);
-                        liftMotor.setPower(0.4);
+                        liftMotor.setPower(0.5);
 
                         // -----------------------------
                         // Actual Autonomous begins here
@@ -241,7 +254,22 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - driveDistance) < 5 &&
+                            if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 505)
+                            {
+                                if (!beganSmoothTravel)
+                                {
+                                    initTime = System.currentTimeMillis();
+                                }
+
+                                desiredTime = 4000;
+                                smoothSpeed = smoothTravel(4000, 0.4, initTime);
+
+                                frontLeftMotor.setPower(smoothSpeed);
+                                frontRightMotor.setPower(smoothSpeed);
+                                backLeftMotor.setPower(smoothSpeed);
+                                backRightMotor.setPower(smoothSpeed);
+                            }
+                            else if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - driveDistance) < 5 &&
                                     Math.abs(backLeftMotor.getCurrentPosition() - driveDistance) < 5 && Math.abs(backRightMotor.getCurrentPosition() - driveDistance) < 5)
                             {
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

@@ -100,12 +100,14 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
     private double smoothDecel (double desiredTime, double speed, long initialTime)
     {
-        return (speed/desiredTime) * Math.exp(-initialTime/desiredTime);
+        long currentTime = System.currentTimeMillis() - initialTime;
+        return (speed/desiredTime) * Math.exp(-currentTime/desiredTime);
     }
 
     private double smoothAccel (double desiredTime, double speed, long initialTime)
     {
-        return speed * (1 - Math.exp(-initialTime/desiredTime));
+        long currentTime = System.currentTimeMillis() - initialTime;
+        return speed * (1 - Math.exp(-currentTime/desiredTime));
     }
 
     @Override

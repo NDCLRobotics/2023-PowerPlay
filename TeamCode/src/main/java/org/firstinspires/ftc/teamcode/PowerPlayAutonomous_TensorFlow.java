@@ -230,10 +230,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         telemetry.addLine(""); // blank space to create gap between final of this output and TensorFlow stuff
 
                         // Set power to motors
-                        frontLeftMotor.setPower(0.0);
-                        frontRightMotor.setPower(0.0);
-                        backLeftMotor.setPower(0.0);
-                        backRightMotor.setPower(0.0);
+                        frontLeftMotor.setPower(0.4);
+                        frontRightMotor.setPower(0.4);
+                        backLeftMotor.setPower(0.4);
+                        backRightMotor.setPower(0.4);
                         liftMotor.setPower(0.5);
 
                         // -----------------------------
@@ -242,19 +242,6 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         if (step == 0) // Move forward
                         {
                             driveDistance = 1800;
-
-                            if (beganSmoothTravel == 0 && frontLeftMotor.getCurrentPosition() < 100)
-                            {
-                                initTime = System.currentTimeMillis();
-                                beganSmoothTravel++;
-                            }
-
-                            smoothSpeed = smoothAccel(500, 0.4, initTime);
-
-                            frontLeftMotor.setPower(smoothSpeed);
-                            frontRightMotor.setPower(smoothSpeed);
-                            backLeftMotor.setPower(smoothSpeed);
-                            backRightMotor.setPower(smoothSpeed);
 
                             frontLeftMotor.setTargetPosition(driveDistance);
                             frontRightMotor.setTargetPosition(driveDistance);

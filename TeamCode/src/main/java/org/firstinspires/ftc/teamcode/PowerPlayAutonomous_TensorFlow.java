@@ -278,7 +278,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backRightMotor.setPower(smoothSpeed);
                             }
                             else if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - driveDistance) < 5 &&
-                                    Math.abs(backLeftMotor.getCurrentPosition() - driveDistance) < 5 && Math.abs(backRightMotor.getCurrentPosition() - driveDistance) < 5)
+                                    Math.abs(backLeftMotor.getCurrentPosition() - driveDistance) < 5)
                             {
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

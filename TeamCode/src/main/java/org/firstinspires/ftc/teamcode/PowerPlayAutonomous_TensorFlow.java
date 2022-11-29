@@ -49,9 +49,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
     private float finalRotAngle = 64.18f;
 
     // Other
-    private int step = 0;
     private int driveDistance;
+    private int step = 0;
     private int beganSmoothTravel = 0;
+    private int parkingPosition = 0;
     private long initTime;
     private double desiredTime, smoothSpeed;
 
@@ -205,6 +206,12 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100 );
                             telemetry.addData("- Position (Row/Col)","%.0f / %.0f", row, col);
                             telemetry.addData("- Size (Width/Height)","%.0f / %.0f", width, height);
+
+                            if (step == 0 && (frontLeftMotor.getCurrentPosition() - driveDistance) > 70 && (frontLeftMotor.getCurrentPosition() - driveDistance) < 75 &&
+                                    parkingPosition == 0)
+                            {
+                                parkingPosition = recognition.getLabel().charAt(0) - 48;
+                            }
                         }
                         telemetry.update();
 
@@ -218,6 +225,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         telemetry.addData("Y Rotation", currentAngleY);
                         telemetry.addData("Z Rotation", currentAngleZ);
                         telemetry.addData("Current Step", step);
+                        telemetry.addData("Parking Position", parkingPosition);
                         telemetry.addLine("\nMotors:");
                         telemetry.addData("Front Left", frontLeftMotor.getCurrentPosition());
                         telemetry.addData("Front Right", frontRightMotor.getCurrentPosition());
@@ -239,7 +247,12 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         // -----------------------------
                         // Actual Autonomous begins here
 
-                        if (step == 0) // Move forward
+                        if (parkingPosition != 0)
+                        {
+                            step++;
+                        }
+
+                        if (step == 1) // Move forward
                         {
                             driveDistance = 1800;
 
@@ -263,7 +276,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                             if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 355 && Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) > 100)
                             {
-                                if (beganSmoothTravel == 1)
+                                if (beganSmoothTravel == 0)
                                 {
                                     initTime = System.currentTimeMillis();
                                     beganSmoothTravel++;
@@ -299,9 +312,9 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             }
                         }
 
-                        if (step == 1) // Turn left 90 degrees
+                        if (step == 2) // Turn left 90 degrees
                         {
-                            finalRotAngle = 76.25f;
+                            finalRotAngle = 75f;
 
                             frontLeftMotor.setPower(-0.4);
                             frontRightMotor.setPower(0.4);

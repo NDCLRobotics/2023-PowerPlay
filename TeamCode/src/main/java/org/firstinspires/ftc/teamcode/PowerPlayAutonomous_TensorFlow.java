@@ -256,7 +256,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         // -----------------------------
                         // Actual Autonomous begins here
 
-                        if (parkingPosition != 0)
+                        if (parkingPosition != 0 && step == 0)
                         {
                             step++;
                         }

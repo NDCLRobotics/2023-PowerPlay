@@ -206,10 +206,20 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             telemetry.addData("- Position (Row/Col)","%.0f / %.0f", row, col);
                             telemetry.addData("- Size (Width/Height)","%.0f / %.0f", width, height);
 
-                            if (step == 0 && (frontLeftMotor.getCurrentPosition() - driveDistance) > 70 && (frontLeftMotor.getCurrentPosition() - driveDistance) < 75 &&
-                                    parkingPosition == 0)
+                            if (parkingPosition == 0)
                             {
-                                parkingPosition = recognition.getLabel().charAt(0) - 48;
+                                if (recognition.getLabel() == "Pink")
+                                {
+                                    parkingPosition = 1;
+                                }
+                                else if (recognition.getLabel() == "Yellow")
+                                {
+                                    parkingPosition = 2;
+                                }
+                                else
+                                {
+                                    parkingPosition = 3;
+                                }
                             }
                         }
                         telemetry.update();

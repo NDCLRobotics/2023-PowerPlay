@@ -254,6 +254,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         liftMotor.setPower(0.5);
 
                         // -----------------------------
+                        // 45.5 counts per inch
                         // Actual Autonomous begins here
 
                         if (parkingPosition != 0 && step == 0)
@@ -339,7 +340,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (Math.abs(frontLeftMotor.getCurrentPosition() + 800) > 5 && Math.abs(frontRightMotor.getCurrentPosition() - 800) < 5)
+                            if (Math.abs(frontLeftMotor.getCurrentPosition() - 800) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - 800) < 5)
                             {
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

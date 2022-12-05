@@ -299,8 +299,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(smoothSpeed);
                                 backRightMotor.setPower(smoothSpeed);
                             }
-                            else if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - driveDistance) < 5 &&
-                                    Math.abs(backLeftMotor.getCurrentPosition() - driveDistance) < 5)
+                            else if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - driveDistance) < 5)
                             {
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -340,6 +339,21 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+                            if (Math.abs(frontLeftMotor.getCurrentPosition() + 800) > 5 && Math.abs(frontRightMotor.getCurrentPosition() - 800) < 5)
+                            {
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                                frontLeftMotor.setPower(0.0);
+                                frontRightMotor.setPower(0.0);
+                                backLeftMotor.setPower(0.0);
+                                backRightMotor.setPower(0.0);
+
+                                step++;
+                            }
+
                             /* if (currentAngleY >= finalRotAngle)
                             {
                                 frontLeftMotor.setPower(0.0);
@@ -361,10 +375,43 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             } */
                         }
 
-                        /* if (step == 2) // Dunk and drop cone
+                        if (step == 3) // Dunk and drop cone
                         {
+                            frontLeftMotor.setPower(0.4);
+                            frontRightMotor.setPower(0.4);
+                            backLeftMotor.setPower(0.4);
+                            backRightMotor.setPower(0.4);
 
-                        } */
+                            frontLeftMotor.setTargetPosition(135);
+                            frontRightMotor.setTargetPosition(135);
+                            backLeftMotor.setTargetPosition(135);
+                            backRightMotor.setTargetPosition(135);
+
+                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                            if (Math.abs(frontLeftMotor.getCurrentPosition() - 135) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - 135) < 5)
+                            {
+                                frontLeftMotor.setPower(0.0);
+                                frontRightMotor.setPower(0.0);
+                                backLeftMotor.setPower(0.0);
+                                backRightMotor.setPower(0.0);
+
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                                rotateServo.setPower(-0.7);
+
+                                sleep(300);
+                                clawServo.setPower(0.1);
+
+                                step++;
+                            }
+                        }
                     }
                 }
             }

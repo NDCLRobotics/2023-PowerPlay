@@ -263,7 +263,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 1) // Move forward
                         {
-                            driveDistance = 1800;
+                            driveDistance = 1960;
 
                             frontLeftMotor.setTargetPosition(driveDistance);
                             frontRightMotor.setTargetPosition(driveDistance);

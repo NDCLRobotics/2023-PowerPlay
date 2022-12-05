@@ -312,12 +312,12 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                                /* frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); */
 
-                                // step++;
+                                step++;
                             }
                         }
 
@@ -330,7 +330,17 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backLeftMotor.setPower(-0.4);
                             backRightMotor.setPower(0.4);
 
-                            if (currentAngleY >= finalRotAngle)
+                            frontLeftMotor.setTargetPosition(-800);
+                            frontRightMotor.setTargetPosition(800);
+                            backLeftMotor.setTargetPosition(-800);
+                            backRightMotor.setTargetPosition(800);
+
+                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                            /* if (currentAngleY >= finalRotAngle)
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
@@ -348,7 +358,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 clawServo.setPower(0.1);
 
                                 step++;
-                            }
+                            } */
                         }
 
                         /* if (step == 2) // Dunk and drop cone

@@ -127,6 +127,12 @@ public class PowerPlayTeleOp extends OpMode
         telemetry.addLine("Working");
         // telemetry.addData("Last updated",sdf.format(file.lastModified()));
 
+        telemetry.addLine("\nMotors:");
+        telemetry.addData("Front Left", frontLeftMotor.getCurrentPosition());
+        telemetry.addData("Front Right", frontRightMotor.getCurrentPosition());
+        telemetry.addData("Back Left", backLeftMotor.getCurrentPosition());
+        telemetry.addData("Back Right", backRightMotor.getCurrentPosition());
+
         currentFrame = 0;
         startHomeFrame = 0;
 

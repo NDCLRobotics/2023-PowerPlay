@@ -264,7 +264,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 1) // Move forward
                         {
-                            driveDistance = 1960;
+                            driveDistance = 1910;
 
                             frontLeftMotor.setTargetPosition(driveDistance);
                             frontRightMotor.setTargetPosition(driveDistance);
@@ -383,17 +383,17 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backLeftMotor.setPower(0.4);
                             backRightMotor.setPower(0.4);
 
-                            frontLeftMotor.setTargetPosition(135);
-                            frontRightMotor.setTargetPosition(135);
-                            backLeftMotor.setTargetPosition(135);
-                            backRightMotor.setTargetPosition(135);
+                            frontLeftMotor.setTargetPosition(67);
+                            frontRightMotor.setTargetPosition(67);
+                            backLeftMotor.setTargetPosition(67);
+                            backRightMotor.setTargetPosition(67);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (Math.abs(frontLeftMotor.getCurrentPosition() - 135) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - 135) < 5)
+                            if (frontLeftMotor.getCurrentPosition() > 62 && frontRightMotor.getCurrentPosition() > 62)
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
@@ -412,6 +412,15 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                                 step++;
                             }
+                        }
+
+                        if (step == 4)
+                        {
+                            sleep(1000);
+                            rotateServo.setPower(0.5);
+                            clawServo.setPower(0.52);
+
+                            step++;
                         }
                     }
                 }

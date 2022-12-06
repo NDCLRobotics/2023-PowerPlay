@@ -426,6 +426,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         if (step == 5)
                         {
                             liftMotor.setPower(-0.5);
+                            liftMotor.setTargetPosition(0);
 
                             if (liftMotor.getCurrentPosition() < 3000) {
                                 step++;
@@ -439,7 +440,6 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backLeftMotor.setPower(0.4);
                             backRightMotor.setPower(-0.4);
 
-                            liftMotor.setTargetPosition(0);
                             frontLeftMotor.setTargetPosition(-550);
                             frontRightMotor.setTargetPosition(550);
                             backLeftMotor.setTargetPosition(550);

@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 import java.util.ArrayList;
 import java.lang.Math;
+import java.util.Random;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -414,7 +415,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             }
                         }
 
-                        if (step == 4)
+                        if (step == 4) // Reset claw position
                         {
                             sleep(500);
                             rotateServo.setPower(0.5);
@@ -423,7 +424,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             step++;
                         }
 
-                        if (step == 5)
+                        if (step == 5) // Pan over a smidgeon
                         {
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(0.32);
@@ -452,8 +453,47 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                                liftMotor.setPower(-0.5);
-                                liftMotor.setTargetPosition(0);
+                                step++;
+                            }
+                        }
+
+                        if (step == 6) // Make a sick 180 to get ready to pick up a cone
+                        {
+                            /* Random rnd = new Random();
+                            if (rnd > 0.5)
+                            {
+                                implement later, java is annoying.
+                            } */
+
+                            frontLeftMotor.setPower(-0.32);
+                            frontRightMotor.setPower(0.32);
+                            backLeftMotor.setPower(-0.32);
+                            backRightMotor.setPower(0.32);
+
+                            frontLeftMotor.setTargetPosition(-1500);
+                            frontRightMotor.setTargetPosition(1500);
+                            backLeftMotor.setTargetPosition(-1500);
+                            backRightMotor.setTargetPosition(1500);
+
+                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                            liftMotor.setPower(-0.5);
+                            liftMotor.setTargetPosition(0);
+
+                            if (frontLeftMotor.getCurrentPosition() < -1495 && frontRightMotor.getCurrentPosition() > 1495)
+                            {
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                                frontLeftMotor.setPower(0.0);
+                                frontRightMotor.setPower(0.0);
+                                backLeftMotor.setPower(0.0);
+                                backRightMotor.setPower(0.0);
 
                                 step++;
                             }

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -48,6 +49,9 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
     private float currentAngleX, currentAngleY, currentAngleZ;
     private float zeroAngleX, zeroAngleY, zeroAngleZ;
     private float finalRotAngle = 64.18f;
+
+    /// Lights
+    private RevBlinkinLedDriver ledLights;
 
     // Other
     private int driveDistance, turnDirection;
@@ -122,6 +126,9 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
         clawServo = hardwareMap.crservo.get("clawServo");
         rotateServo = hardwareMap.crservo.get("rotateServo");
+
+        ledLights = hardwareMap.get(RevBlinkinLedDriver.class, "ledLights");
+        ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
 
         // Set direction to the motors (may need to change depending on orientation of robot)
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -494,7 +501,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                             liftMotor.setPower(-0.5);
-                            liftMotor.setTargetPosition(0);
+                            liftMotor.setTargetPosition(1500);
+
+                            rotateServo.setPower(-0.1);
+                            clawServo.setPower(0.1);
 
                             if ((frontLeftMotor.getCurrentPosition() < -1555 && frontRightMotor.getCurrentPosition() > 1555 && turnDirection == 1) ||
                                     (frontLeftMotor.getCurrentPosition() > 1555 && frontRightMotor.getCurrentPosition() < -1555 && turnDirection == -1))

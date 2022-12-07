@@ -418,7 +418,6 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         if (step == 4) // Reset claw position
                         {
                             sleep(500);
-                            rotateServo.setPower(0.5);
                             clawServo.setPower(0.52);
 
                             step++;
@@ -447,6 +446,8 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
+
+                                rotateServo.setPower(0.5);
 
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

@@ -63,7 +63,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
      * has been downloaded to the Robot Controller's SD FLASH memory, it must to be loaded using loadModelFromFile()
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
-    private static final String TFOD_MODEL_ASSET = "bok.tflite";
+    private static final String TFOD_MODEL_ASSET = "bok2electricboogaloo.tflite";
     // private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/CustomTeamModel.tflite";
 
     private static final String[] LABELS =
@@ -247,10 +247,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         telemetry.addLine(""); // blank space to create gap between final of this output and TensorFlow stuff
 
                         // Set power to motors
-                        frontLeftMotor.setPower(0.4);
-                        frontRightMotor.setPower(0.4);
-                        backLeftMotor.setPower(0.4);
-                        backRightMotor.setPower(0.4);
+                        frontLeftMotor.setPower(0.32);
+                        frontRightMotor.setPower(0.32);
+                        backLeftMotor.setPower(0.32);
+                        backRightMotor.setPower(0.32);
                         liftMotor.setPower(0.5);
 
                         // -----------------------------
@@ -325,10 +325,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         {
                             finalRotAngle = 75f;
 
-                            frontLeftMotor.setPower(-0.4);
-                            frontRightMotor.setPower(0.4);
-                            backLeftMotor.setPower(-0.4);
-                            backRightMotor.setPower(0.4);
+                            frontLeftMotor.setPower(-0.32);
+                            frontRightMotor.setPower(0.32);
+                            backLeftMotor.setPower(-0.32);
+                            backRightMotor.setPower(0.32);
 
                             frontLeftMotor.setTargetPosition(-750);
                             frontRightMotor.setTargetPosition(750);
@@ -340,7 +340,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() < -770 && frontRightMotor.getCurrentPosition() > 770)
+                            if (frontLeftMotor.getCurrentPosition() < -745 && frontRightMotor.getCurrentPosition() > 745)
                             {
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -378,10 +378,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 3) // Dunk and drop cone
                         {
-                            frontLeftMotor.setPower(0.4);
-                            frontRightMotor.setPower(0.4);
-                            backLeftMotor.setPower(0.4);
-                            backRightMotor.setPower(0.4);
+                            frontLeftMotor.setPower(0.32);
+                            frontRightMotor.setPower(0.32);
+                            backLeftMotor.setPower(0.32);
+                            backRightMotor.setPower(0.32);
 
                             frontLeftMotor.setTargetPosition(67);
                             frontRightMotor.setTargetPosition(67);
@@ -425,10 +425,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 5)
                         {
-                            frontLeftMotor.setPower(-0.4);
-                            frontRightMotor.setPower(0.4);
-                            backLeftMotor.setPower(0.4);
-                            backRightMotor.setPower(-0.4);
+                            frontLeftMotor.setPower(-0.32);
+                            frontRightMotor.setPower(0.32);
+                            backLeftMotor.setPower(0.32);
+                            backRightMotor.setPower(-0.32);
 
                             frontLeftMotor.setTargetPosition(-650);
                             frontRightMotor.setTargetPosition(650);

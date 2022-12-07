@@ -478,13 +478,13 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         if (step == 7) // Make a sick 180 to get ready to pick up a cone
                         {
 
-                            frontLeftMotor.setPower(0.32 * turnDirection);
-                            frontRightMotor.setPower(0.32 * -turnDirection);
+                            frontLeftMotor.setPower(0.32 * -turnDirection);
+                            frontRightMotor.setPower(0.32 * turnDirection);
                             backLeftMotor.setPower(0.32 * -turnDirection);
                             backRightMotor.setPower(0.32 * turnDirection);
 
-                            frontLeftMotor.setTargetPosition(1560 * turnDirection);
-                            frontRightMotor.setTargetPosition(1560 * -turnDirection);
+                            frontLeftMotor.setTargetPosition(1560 * -turnDirection);
+                            frontRightMotor.setTargetPosition(1560 * turnDirection);
                             backLeftMotor.setTargetPosition(1560 * -turnDirection);
                             backRightMotor.setTargetPosition(1560 * turnDirection);
 

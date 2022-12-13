@@ -128,7 +128,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
         rotateServo = hardwareMap.crservo.get("rotateServo");
 
         ledLights = hardwareMap.get(RevBlinkinLedDriver.class, "ledLights");
-        ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+        ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
 
         // Set direction to the motors (may need to change depending on orientation of robot)
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -219,14 +219,17 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 if (recognition.getLabel() == "Pink")
                                 {
                                     parkingPosition = 1;
+                                    ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.HOT_PINK);
                                 }
                                 else if (recognition.getLabel() == "Yellow")
                                 {
                                     parkingPosition = 2;
+                                    ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
                                 }
                                 else
                                 {
                                     parkingPosition = 3;
+                                    ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                                 }
                             }
                         }
@@ -325,8 +328,8 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); */
 
-                                sleep(100);
                                 step++;
+                                sleep(100);
                             }
                         }
 

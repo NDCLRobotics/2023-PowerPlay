@@ -499,7 +499,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         }
                         if (step == 7) // 180 turn correction
                         {
-                            if (currentAngleY < 89.5)
+                            /*if (currentAngleY < 89.5)
                             {
                                 frontLeftMotor.setPower(-0.07);
                                 frontRightMotor.setPower(0.07);
@@ -541,7 +541,8 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                                 step++;
-                            }
+                            }*/
+                            step++;
                         }
 
                         if (step == 8) // moves forward and picks up cone

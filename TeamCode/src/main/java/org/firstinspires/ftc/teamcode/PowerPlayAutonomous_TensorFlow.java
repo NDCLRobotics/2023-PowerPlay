@@ -128,7 +128,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
         rotateServo = hardwareMap.crservo.get("rotateServo");
 
         ledLights = hardwareMap.get(RevBlinkinLedDriver.class, "ledLights");
-        ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+        ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_LAVA_PALETTE);
 
         // Set direction to the motors (may need to change depending on orientation of robot)
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -468,25 +468,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             }
                         }
 
-                        if (step == 6) // pick a direction to turn
-                        {
-                           /* Random rnd = new Random();
-                            double r = (rnd.nextInt(101) / 100.);*/
-                            double r = 1;
-
-                            if (r > 0.5)
-                            {
-                                turnDirection = 1;
-                            }
-                            else
-                            {
-                                turnDirection = -1;
-                            }
-
-                            step++;
-                        }
-
-                        if (step == 7) // Make a sick 180 to get ready to pick up a cone
+                        if (step == 6) // Make a sick 180 to get ready to pick up a cone
                         {
 
                             frontLeftMotor.setPower(0.32 * -turnDirection);
@@ -526,17 +508,17 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 step++;
                             }
                         }
-                        if (step==8)//180 turn correction
+                        if (step == 7) // 180 turn correction
                         {
-                            if (currentAngleY < 89.5 )
+                            if (currentAngleY < 89.5)
                             {
                                 frontLeftMotor.setPower(-0.1);
                                 frontRightMotor.setPower(-0.1);
                                 backLeftMotor.setPower(0.1);
                                 backRightMotor.setPower(0.1);
 
-                                frontLeftMotor.setTargetPosition(3);
-                                frontRightMotor.setTargetPosition(3);
+                                frontLeftMotor.setTargetPosition(-3);
+                                frontRightMotor.setTargetPosition(-3);
                                 backLeftMotor.setTargetPosition(3);
                                 backRightMotor.setTargetPosition(3);
 
@@ -544,6 +526,11 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                             }
                             else if (currentAngleY > 90.5)
                             {
@@ -554,13 +541,18 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                                 frontLeftMotor.setTargetPosition(3);
                                 frontRightMotor.setTargetPosition(3);
-                                backLeftMotor.setTargetPosition(3);
-                                backRightMotor.setTargetPosition(3);
+                                backLeftMotor.setTargetPosition(-3);
+                                backRightMotor.setTargetPosition(-3);
 
                                 frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                             }
                             else
                             {
@@ -572,7 +564,8 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 step++;
                             }
                         }
-                        if (step == 9) // moves forward and picks up cone
+
+                        if (step == 8) // moves forward and picks up cone
                         {
                             frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(0.32);
@@ -605,11 +598,11 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 sleep(500);
                                 rotateServo.setPower(0.5);
 
-
                                 step++;
                             }
                         }
-                        if (step == 10)//Backs up to align with low junction
+
+                        if (step == 9) // Backs up to align with low junction
                         {
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(-0.32);
@@ -621,14 +614,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backLeftMotor.setTargetPosition(-1150);
                             backRightMotor.setTargetPosition(-1150);
 
-
-
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
 
                             if (frontLeftMotor.getCurrentPosition() > -1145 && frontRightMotor.getCurrentPosition() > -1145)
                             {
@@ -645,7 +634,8 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 step++;
                             }
                         }
-                        if (step == 11)//pan to backtrack to step 5, but robot orientation is the same as step 7
+
+                        if (step == 10) // pan to backtrack to step 5, but robot orientation is the same as step 7
                         {
                             frontLeftMotor.setTargetPosition(650);
                             frontRightMotor.setTargetPosition(-650);
@@ -660,7 +650,6 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
 
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(0.32);
@@ -684,7 +673,8 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 step++;
                             }
                         }
-                        if (step == 12)
+
+                        if (step == 11)
                         {
                             frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(0.32);
@@ -721,7 +711,6 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 step++;
                             }
                         }
-
                     }
                 }
             }

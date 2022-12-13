@@ -128,7 +128,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
         rotateServo = hardwareMap.crservo.get("rotateServo");
 
         ledLights = hardwareMap.get(RevBlinkinLedDriver.class, "ledLights");
-        ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_LAVA_PALETTE);
+        ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
 
         // Set direction to the motors (may need to change depending on orientation of robot)
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);

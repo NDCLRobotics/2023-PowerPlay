@@ -128,7 +128,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
         rotateServo = hardwareMap.crservo.get("rotateServo");
 
         ledLights = hardwareMap.get(RevBlinkinLedDriver.class, "ledLights");
-        ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
+        ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED_ORANGE);
 
         // Set direction to the motors (may need to change depending on orientation of robot)
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -275,7 +275,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 1) // Move forward
                         {
-                            driveDistance = 1800;
+                            driveDistance = 1810;
 
                             frontLeftMotor.setTargetPosition(driveDistance);
                             frontRightMotor.setTargetPosition(driveDistance);
@@ -295,23 +295,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            /* if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 355 && Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) > 100)
-                            {
-                                if (beganSmoothTravel == 0)
-                                {
-                                    initTime = System.currentTimeMillis();
-                                    beganSmoothTravel++;
-                                }
-
-                                desiredTime = 4000;
-                                smoothSpeed = smoothDecel(4000, 0.4, initTime);
-
-                                frontLeftMotor.setPower(smoothSpeed);
-                                frontRightMotor.setPower(smoothSpeed);
-                                backLeftMotor.setPower(smoothSpeed);
-                                backRightMotor.setPower(smoothSpeed);
-                            }
-                            else */ if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - driveDistance) < 5)
+                            if (frontLeftMotor.getCurrentPosition() > (driveDistance - 5) && frontRightMotor.getCurrentPosition() > (driveDistance - 5))
                             {
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

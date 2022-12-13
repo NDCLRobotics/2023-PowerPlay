@@ -312,8 +312,8 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); */
 
+                                sleep(250);
                                 step++;
-                                sleep(100);
                             }
                         }
 
@@ -348,7 +348,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                sleep(100);
+                                sleep(250);
                                 step++;
                             }
 
@@ -407,7 +407,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 sleep(300);
                                 clawServo.setPower(0.1);
 
-                                sleep(100);
+                                sleep(250);
                                 step++;
                             }
                         }
@@ -417,6 +417,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             sleep(500);
                             clawServo.setPower(0.52);
 
+                            sleep(250);
                             step++;
                         }
 
@@ -454,6 +455,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+                                sleep(250);
                                 step++;
                             }
                         }
@@ -494,6 +496,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
+                                sleep(250);
                                 step++;
                             }
                         }
@@ -578,6 +581,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 sleep(500);
                                 rotateServo.setPower(0.5);
 
+                                sleep(250);
                                 step++;
                             }
                         }
@@ -611,6 +615,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
+                                sleep(250);
                                 step++;
                             }
                         }
@@ -622,10 +627,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backLeftMotor.setPower(0.32);
                             backRightMotor.setPower(-0.32);
 
-                            frontLeftMotor.setTargetPosition(-600);
-                            frontRightMotor.setTargetPosition(600);
-                            backLeftMotor.setTargetPosition(600);
-                            backRightMotor.setTargetPosition(-600);
+                            frontLeftMotor.setTargetPosition(-615);
+                            frontRightMotor.setTargetPosition(615);
+                            backLeftMotor.setTargetPosition(615);
+                            backRightMotor.setTargetPosition(-615);
 
                             liftMotor.setTargetPosition(1500);
 
@@ -635,7 +640,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() < -595 && frontRightMotor.getCurrentPosition() > 595)
+                            if (frontLeftMotor.getCurrentPosition() < -610 && frontRightMotor.getCurrentPosition() > 610)
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
@@ -649,6 +654,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+                                sleep(250);
                                 step++;
                             }
                         }
@@ -687,6 +693,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 sleep(300);
                                 clawServo.setPower(0.1);
 
+                                sleep(250);
                                 step++;
                             }
                         }
@@ -725,6 +732,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 liftMotor.setTargetPosition(0);
                                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+                                sleep(250);
                                 step++;
                             }
                         }
@@ -758,6 +766,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
+                                sleep(250);
                                 step++;
                             }
                         }
@@ -791,6 +800,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
+                                sleep(250);
                                 step++;
                             }
                         }

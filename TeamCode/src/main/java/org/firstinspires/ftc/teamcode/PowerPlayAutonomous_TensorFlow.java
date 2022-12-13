@@ -471,15 +471,15 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         if (step == 6) // Make a sick 180 to get ready to pick up a cone
                         {
 
-                            frontLeftMotor.setPower(0.32 * -turnDirection);
-                            frontRightMotor.setPower(0.32 * turnDirection);
-                            backLeftMotor.setPower(0.32 * -turnDirection);
-                            backRightMotor.setPower(0.32 * turnDirection);
+                            frontLeftMotor.setPower(-0.32);
+                            frontRightMotor.setPower(0.32);
+                            backLeftMotor.setPower(-0.32);
+                            backRightMotor.setPower(0.32);
 
-                            frontLeftMotor.setTargetPosition(1560 * -turnDirection);
-                            frontRightMotor.setTargetPosition(1560 * turnDirection);
-                            backLeftMotor.setTargetPosition(1560 * -turnDirection);
-                            backRightMotor.setTargetPosition(1560 * turnDirection);
+                            frontLeftMotor.setTargetPosition(-1560);
+                            frontRightMotor.setTargetPosition(1560);
+                            backLeftMotor.setTargetPosition(-1560);
+                            backRightMotor.setTargetPosition(1560);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -492,8 +492,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             rotateServo.setPower(-0.1);
                             clawServo.setPower(0.1);
 
-                            if ((frontLeftMotor.getCurrentPosition() < -1555 && frontRightMotor.getCurrentPosition() > 1555 && turnDirection == 1) ||
-                                    (frontLeftMotor.getCurrentPosition() > 1555 && frontRightMotor.getCurrentPosition() < -1555 && turnDirection == -1))
+                            if (frontLeftMotor.getCurrentPosition() < -1555 && frontRightMotor.getCurrentPosition() > 1555 && turnDirection == 1)
                             {
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

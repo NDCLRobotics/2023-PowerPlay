@@ -508,6 +508,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 backRightMotor.setPower(0.0);
 
                                 step++;
+                                step++;
                             }
                         }
                         if (step == 7) // 180 turn correction
@@ -670,6 +671,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
+                                step++;
                                 step++;
                             }
                         }

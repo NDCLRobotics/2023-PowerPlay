@@ -672,7 +672,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             }
                         }
 
-                        if (step == 11)
+                        if (step == 11) // get ready to DUNK
                         {
                             frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(0.32);
@@ -701,10 +701,109 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                                rotateServo.setPower(-0.7);
+                                rotateServo.setPower(-0.1);
 
                                 sleep(300);
                                 clawServo.setPower(0.1);
+
+                                step++;
+                            }
+                        }
+
+                        if (step == 12) // return to base
+                        {
+                            frontLeftMotor.setPower(0.32);
+                            frontRightMotor.setPower(-0.32);
+                            backLeftMotor.setPower(-0.32);
+                            backRightMotor.setPower(0.32);
+
+                            frontLeftMotor.setTargetPosition(600);
+                            frontRightMotor.setTargetPosition(-600);
+                            backLeftMotor.setTargetPosition(-600);
+                            backRightMotor.setTargetPosition(600);
+
+                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                            if (frontLeftMotor.getCurrentPosition() > 595 && frontRightMotor.getCurrentPosition() < -595)
+                            {
+                                frontLeftMotor.setPower(0.0);
+                                frontRightMotor.setPower(0.0);
+                                backLeftMotor.setPower(0.0);
+                                backRightMotor.setPower(0.0);
+
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                                step++;
+                            }
+                        }
+
+                        if (step == 13 && parkingPosition == 1) // B, drive forward
+                        {
+                            frontLeftMotor.setPower(0.32);
+                            frontRightMotor.setPower(0.32);
+                            backLeftMotor.setPower(0.32);
+                            backRightMotor.setPower(0.32);
+
+                            frontLeftMotor.setTargetPosition(900);
+                            frontRightMotor.setTargetPosition(900);
+                            backLeftMotor.setTargetPosition(900);
+                            backRightMotor.setTargetPosition(900);
+
+                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                            if (frontLeftMotor.getCurrentPosition() > 895 && frontRightMotor.getCurrentPosition() > 895)
+                            {
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                                frontLeftMotor.setPower(0.0);
+                                frontRightMotor.setPower(0.0);
+                                backLeftMotor.setPower(0.0);
+                                backRightMotor.setPower(0.0);
+
+                                step++;
+                            }
+                        }
+
+                        if (step == 13 && parkingPosition == 3) // K, drive backward
+                        {
+                            frontLeftMotor.setPower(-0.32);
+                            frontRightMotor.setPower(-0.32);
+                            backLeftMotor.setPower(-0.32);
+                            backRightMotor.setPower(-0.32);
+
+                            frontLeftMotor.setTargetPosition(-1150);
+                            frontRightMotor.setTargetPosition(-1150);
+                            backLeftMotor.setTargetPosition(-1150);
+                            backRightMotor.setTargetPosition(-1150);
+
+                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                            if (frontLeftMotor.getCurrentPosition() < -1145 && frontRightMotor.getCurrentPosition() < -1145)
+                            {
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                                frontLeftMotor.setPower(0.0);
+                                frontRightMotor.setPower(0.0);
+                                backLeftMotor.setPower(0.0);
+                                backRightMotor.setPower(0.0);
 
                                 step++;
                             }

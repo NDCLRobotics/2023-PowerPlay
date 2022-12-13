@@ -325,6 +325,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); */
 
+                                sleep(100);
                                 step++;
                             }
                         }
@@ -360,6 +361,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
+                                sleep(100);
                                 step++;
                             }
 
@@ -418,6 +420,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 sleep(300);
                                 clawServo.setPower(0.1);
 
+                                sleep(100);
                                 step++;
                             }
                         }
@@ -511,10 +514,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         {
                             if (currentAngleY < 89.5)
                             {
-                                frontLeftMotor.setPower(-0.1);
-                                frontRightMotor.setPower(0.1);
-                                backLeftMotor.setPower(-0.1);
-                                backRightMotor.setPower(0.1);
+                                frontLeftMotor.setPower(-0.07);
+                                frontRightMotor.setPower(0.07);
+                                backLeftMotor.setPower(-0.07);
+                                backRightMotor.setPower(0.07);
 
                                 frontLeftMotor.setTargetPosition(-100);
                                 frontRightMotor.setTargetPosition(100);
@@ -528,10 +531,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             }
                             else if (currentAngleY > 90.5)
                             {
-                                frontLeftMotor.setPower(0.1);
-                                frontRightMotor.setPower(-0.1);
-                                backLeftMotor.setPower(0.1);
-                                backRightMotor.setPower(-0.1);
+                                frontLeftMotor.setPower(0.07);
+                                frontRightMotor.setPower(-0.07);
+                                backLeftMotor.setPower(0.07);
+                                backRightMotor.setPower(-0.07);
 
                                 frontLeftMotor.setTargetPosition(100);
                                 frontRightMotor.setTargetPosition(-100);

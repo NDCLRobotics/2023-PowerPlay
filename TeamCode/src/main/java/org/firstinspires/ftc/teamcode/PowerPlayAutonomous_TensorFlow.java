@@ -511,10 +511,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         {
                             if (currentAngleY < 89.5)
                             {
-                                frontLeftMotor.setPower(-0.2);
-                                frontRightMotor.setPower(0.2);
-                                backLeftMotor.setPower(-0.2);
-                                backRightMotor.setPower(0.2);
+                                frontLeftMotor.setPower(-0.1);
+                                frontRightMotor.setPower(0.1);
+                                backLeftMotor.setPower(-0.1);
+                                backRightMotor.setPower(0.1);
 
                                 frontLeftMotor.setTargetPosition(-100);
                                 frontRightMotor.setTargetPosition(100);
@@ -528,10 +528,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             }
                             else if (currentAngleY > 90.5)
                             {
-                                frontLeftMotor.setPower(0.2);
-                                frontRightMotor.setPower(-0.2);
-                                backLeftMotor.setPower(0.2);
-                                backRightMotor.setPower(-0.2);
+                                frontLeftMotor.setPower(0.1);
+                                frontRightMotor.setPower(-0.1);
+                                backLeftMotor.setPower(0.1);
+                                backRightMotor.setPower(-0.1);
 
                                 frontLeftMotor.setTargetPosition(100);
                                 frontRightMotor.setTargetPosition(-100);
@@ -731,6 +731,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+                                clawServo.setPower(0.52);
                                 liftMotor.setTargetPosition(0);
                                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 

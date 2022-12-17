@@ -774,12 +774,50 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                         if (step == 13) // Reset claw position
                         {
                             liftMotor.setTargetPosition(0);
+                            rotateServo.setPower(0.5);
+                            clawServo.setPower(0.52);
                             if (liftMotor.getCurrentPosition() < 5)
                             {
                                 step++;
                             }
                         }
-                        if (step == 14 && parkingPosition == 3) // K, drive forward
+
+                        if (step == 14)
+                        {
+
+                            frontLeftMotor.setPower(0.32);
+                            frontRightMotor.setPower(-0.32);
+                            backLeftMotor.setPower(0.32);
+                            backRightMotor.setPower(-0.32);
+
+                            frontLeftMotor.setTargetPosition(780);
+                            frontRightMotor.setTargetPosition(-780);
+                            backLeftMotor.setTargetPosition(780);
+                            backRightMotor.setTargetPosition(-780);
+
+                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+                            if (frontLeftMotor.getCurrentPosition() > 775 && frontRightMotor.getCurrentPosition() < -775)
+                            {
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                                frontLeftMotor.setPower(0.0);
+                                frontRightMotor.setPower(0.0);
+                                backLeftMotor.setPower(0.0);
+                                backRightMotor.setPower(0.0);
+
+                                step++;
+                            }
+                        }
+
+                        if (step == 15 && parkingPosition == 3) // K, drive forward
                         {
                             frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(0.32);
@@ -813,7 +851,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             }
                         }
 
-                        if (step == 14 && parkingPosition == 1) // B, drive backward
+                        if (step == 15 && parkingPosition == 1) // B, drive backward
                         {
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(-0.32);

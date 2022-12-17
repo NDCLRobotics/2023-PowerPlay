@@ -176,19 +176,26 @@ public class PowerPlayTeleOp extends OpMode
         liftMotorPos = liftMotor.getCurrentPosition();
 
         // Driving controls
-        if (turn > 0)
+        if (turn > 0.05)
         {
             frontLeftPower = Range.clip(drive + (turn + 0.2), -1.0, 1.0);
             frontRightPower = Range.clip(drive - (turn + 0.2), -1.0, 1.0);
             backLeftPower = Range.clip(drive + (turn + 0.2), -1.0, 1.0);
             backRightPower = Range.clip(drive - (turn + 0.2), -1.0, 1.0);
         }
-        else if (turn < 0)
+        else if (turn < -0.05)
         {
             frontLeftPower = Range.clip(drive + (turn - 0.2), -1.0, 1.0);
             frontRightPower = Range.clip(drive - (turn - 0.2), -1.0, 1.0);
             backLeftPower = Range.clip(drive + (turn - 0.2), -1.0, 1.0);
             backRightPower = Range.clip(drive - (turn - 0.2), -1.0, 1.0);
+        }
+        else
+        {
+            frontLeftPower = Range.clip(drive + turn, -1.0, 1.0);
+            frontRightPower = Range.clip(drive - turn, -1.0, 1.0);
+            backLeftPower = Range.clip(drive + turn, -1.0, 1.0);
+            backRightPower = Range.clip(drive - turn, -1.0, 1.0);
         }
         frontLeftMotor.setPower(powerScale * frontLeftPower);
         frontRightMotor.setPower(powerScale * frontRightPower);

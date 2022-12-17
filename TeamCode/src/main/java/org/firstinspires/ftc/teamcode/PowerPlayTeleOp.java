@@ -170,16 +170,26 @@ public class PowerPlayTeleOp extends OpMode
         currentFrame += 1;
 
         double drive = -gamepad1.left_stick_y;
-        double turn = gamepad1.right_stick_x * 1.15;
+        double turn = gamepad1.right_stick_x;
         double pan = -gamepad1.left_stick_x;
 
         liftMotorPos = liftMotor.getCurrentPosition();
 
         // Driving controls
-        frontLeftPower = Range.clip(drive + turn, -1.0, 1.0);
-        frontRightPower = Range.clip(drive - turn, -1.0, 1.0);
-        backLeftPower = Range.clip(drive + turn, -1.0, 1.0);
-        backRightPower = Range.clip(drive - turn, -1.0, 1.0);
+        if (turn > 0)
+        {
+            frontLeftPower = Range.clip(drive + (turn + 0.2), -1.0, 1.0);
+            frontRightPower = Range.clip(drive - (turn + 0.2), -1.0, 1.0);
+            backLeftPower = Range.clip(drive + (turn + 0.2), -1.0, 1.0);
+            backRightPower = Range.clip(drive - (turn + 0.2), -1.0, 1.0);
+        }
+        else if (turn < 0)
+        {
+            frontLeftPower = Range.clip(drive + (turn - 0.2), -1.0, 1.0);
+            frontRightPower = Range.clip(drive - (turn - 0.2), -1.0, 1.0);
+            backLeftPower = Range.clip(drive + (turn - 0.2), -1.0, 1.0);
+            backRightPower = Range.clip(drive - (turn - 0.2), -1.0, 1.0);
+        }
         frontLeftMotor.setPower(powerScale * frontLeftPower);
         frontRightMotor.setPower(powerScale * frontRightPower);
         backLeftMotor.setPower(powerScale * backLeftPower);

@@ -46,7 +46,7 @@ public class PowerPlayTeleOp extends OpMode
     private double frontLeftPan, frontRightPan, backLeftPan, backRightPan;
 
     // Scale variable
-    private double powerScale = 0.8;
+    private double powerScale = 0.6;
     private boolean powerSwitching = false;
 
     private double liftScale = 0.8;

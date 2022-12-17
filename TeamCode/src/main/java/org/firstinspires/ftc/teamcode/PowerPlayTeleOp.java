@@ -170,7 +170,7 @@ public class PowerPlayTeleOp extends OpMode
         currentFrame += 1;
 
         double drive = -gamepad1.left_stick_y;
-        double turn = gamepad1.right_stick_x;
+        double turn = gamepad1.right_stick_x * 1.15;
         double pan = -gamepad1.left_stick_x;
 
         liftMotorPos = liftMotor.getCurrentPosition();

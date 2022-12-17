@@ -308,11 +308,11 @@ public class PowerPlayTeleOp extends OpMode
             liftMotorZero = liftMotor.getCurrentPosition();
         }
 
-        if (gamepad1.dpad_left)
+        if (gamepad1.options)
         {
             ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         }
-        if (gamepad1.dpad_right)
+        if (gamepad1.share)
         {
             ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
         }

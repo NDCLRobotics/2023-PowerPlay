@@ -29,48 +29,8 @@ public class SecondRobotEncoderTest extends OpMode
 
     // Scale variable
     private double powerScale = 0.6;
-    private boolean powerSwitching = false;
 
-    // Pull the date of the file (to update the date of telemetry)
-    File curDir = new File("./system");
-    private static Stack<File> nest = new Stack<File>();
 
-    public void getAllFiles (File curDir)
-    {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        File[] filesList = curDir.listFiles();
-        if (filesList != null)
-        {
-            for (File f : filesList)
-            {
-                if (f.isDirectory() && !f.getName().equals("bin"))// && nest.size() < 3)
-                {
-                    nest.push(f);
-                    getAllFiles(f);
-                    nest.pop();
-                }
-                else //if (f.isFile())
-                {
-                    if (sdf.format(f.lastModified()).contains("2022"))
-                    {
-                        String s = "";
-                        for (File ff : nest)
-                        {
-                            s += ff.getName() + "/";
-                        }
-                        if (f.isDirectory())
-                        {
-                            telemetry.addLine(s + f.getName() + "/");
-                        }
-                        else
-                        {
-                            telemetry.addLine(s + f.getName() + " " + sdf.format(f.lastModified()));
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     @Override
     public void init ()
@@ -91,8 +51,6 @@ public class SecondRobotEncoderTest extends OpMode
         telemetry.addLine("Working");
         // telemetry.addData("Last updated",sdf.format(file.lastModified()));
 
-        // test stuff
-        getAllFiles(curDir);
     }
 
     @Override
@@ -104,14 +62,9 @@ public class SecondRobotEncoderTest extends OpMode
     @Override
     public void loop ()
     {
-        telemetry.addLine("\nMotors:");
-        telemetry.addData("Front Left", frontLeftMotor.getCurrentPosition());
-        telemetry.addData("Front Right", frontRightMotor.getCurrentPosition());
-        telemetry.addData("Back Left", backLeftMotor.getCurrentPosition());
-        telemetry.addData("Back Right", backRightMotor.getCurrentPosition());
 
         double drive = -gamepad1.left_stick_y;
-        double turn = gamepad1.right_stick_x;
+        double turn = -gamepad1.right_stick_x;
         double pan = -gamepad1.left_stick_x;
 
         // Driving controls
@@ -134,27 +87,6 @@ public class SecondRobotEncoderTest extends OpMode
         backLeftMotor.setPower(powerScale * backLeftPan);
         backRightMotor.setPower(powerScale * backRightPan);
 
-        // Incrementing speed for driving motor, up speeds up motors, down slows down motors
-        if (gamepad1.dpad_up && !powerSwitching)
-        {
-            powerSwitching = true;
-            powerScale += 0.2;
-        }
-        if (gamepad1.dpad_down && !powerSwitching)
-        {
-            powerSwitching = true;
-            powerScale -= 0.2;
-        }
-        if (!gamepad1.dpad_down && !gamepad1.dpad_up && powerSwitching)
-        {
-            powerSwitching = false;
-        }
-
-        // Clamp for driving power scale
-        powerScale = Range.clip(powerScale, 0.2, 1.0);
-
-        // Output telemetry
-        telemetry.addLine("Power Scale:" + powerScale);
     }
 
     @Override

@@ -687,17 +687,17 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             backLeftMotor.setPower(0.32);
                             backRightMotor.setPower(0.32);
 
-                            frontLeftMotor.setTargetPosition(67);
-                            frontRightMotor.setTargetPosition(67);
-                            backLeftMotor.setTargetPosition(67);
-                            backRightMotor.setTargetPosition(67);
+                            frontLeftMotor.setTargetPosition(90);
+                            frontRightMotor.setTargetPosition(90);
+                            backLeftMotor.setTargetPosition(90);
+                            backRightMotor.setTargetPosition(90);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() > 62 && frontRightMotor.getCurrentPosition() > 62)
+                            if (frontLeftMotor.getCurrentPosition() > 85 && frontRightMotor.getCurrentPosition() > 85)
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);

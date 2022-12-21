@@ -7,31 +7,70 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.util.Range;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Stack;
-import java.lang.Math;
 
-@TeleOp(name="Second Robot Encoder Test", group="Interactive Opmode")
+@TeleOp(name="Second Robot Simple Code", group="Interactive Opmode")
 
 public class SecondRobotEncoderTest extends OpMode
 {
-
-
-    //flags
-    private boolean run_auto = false;
-    private boolean move1finished=false;
-    private boolean move2finished=false;
-    private boolean move3finished=false;
-    private boolean move4finished=false;
-
-
     // Control Hub
     private DcMotor frontLeftMotor = null;
     private DcMotor frontRightMotor = null;
     private DcMotor backLeftMotor = null;
     private DcMotor backRightMotor = null;
+
+    // Variables for power set to the drive and pan functions
+    private double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
+    private double frontLeftPan, frontRightPan, backLeftPan, backRightPan;
+
+    // Scale variable
+    private double powerScale = 0.6;
+    private boolean powerSwitching = false;
+
+    // Pull the date of the file (to update the date of telemetry)
+    File curDir = new File("./system");
+    private static Stack<File> nest = new Stack<File>();
+
+    public void getAllFiles (File curDir)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        File[] filesList = curDir.listFiles();
+        if (filesList != null)
+        {
+            for (File f : filesList)
+            {
+                if (f.isDirectory() && !f.getName().equals("bin"))// && nest.size() < 3)
+                {
+                    nest.push(f);
+                    getAllFiles(f);
+                    nest.pop();
+                }
+                else //if (f.isFile())
+                {
+                    if (sdf.format(f.lastModified()).contains("2022"))
+                    {
+                        String s = "";
+                        for (File ff : nest)
+                        {
+                            s += ff.getName() + "/";
+                        }
+                        if (f.isDirectory())
+                        {
+                            telemetry.addLine(s + f.getName() + "/");
+                        }
+                        else
+                        {
+                            telemetry.addLine(s + f.getName() + " " + sdf.format(f.lastModified()));
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     public void init ()
@@ -44,19 +83,16 @@ public class SecondRobotEncoderTest extends OpMode
 
         // Set direction to the motors (may need to change depending on orientation of robot)
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        // Reset the encoder count - intialize to 0
-        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Send telemetry to the robot
         telemetry.addLine("Working");
         // telemetry.addData("Last updated",sdf.format(file.lastModified()));
+
+        // test stuff
+        getAllFiles(curDir);
     }
 
     @Override
@@ -68,186 +104,63 @@ public class SecondRobotEncoderTest extends OpMode
     @Override
     public void loop ()
     {
-        // Reset encoder positions
-        if (gamepad1.cross)
+        telemetry.addLine("\nMotors:");
+        telemetry.addData("Front Left", frontLeftMotor.getCurrentPosition());
+        telemetry.addData("Front Right", frontRightMotor.getCurrentPosition());
+        telemetry.addData("Back Left", backLeftMotor.getCurrentPosition());
+        telemetry.addData("Back Right", backRightMotor.getCurrentPosition());
+
+        double drive = -gamepad1.left_stick_y;
+        double turn = gamepad1.right_stick_x;
+        double pan = -gamepad1.left_stick_x;
+
+        // Driving controls
+        frontLeftPower = Range.clip(drive + turn, -1.0, 1.0);
+        frontRightPower = Range.clip(drive - turn, -1.0, 1.0);
+        backLeftPower = Range.clip(drive + turn, -1.0, 1.0);
+        backRightPower = Range.clip(drive - turn, -1.0, 1.0);
+        frontLeftMotor.setPower(powerScale * frontLeftPower);
+        frontRightMotor.setPower(powerScale * frontRightPower);
+        backLeftMotor.setPower(powerScale * backLeftPower);
+        backRightMotor.setPower(powerScale * backRightPower);
+
+        // Panning controls
+        frontLeftPan = Range.clip(drive + pan, -1.0, 1.0);
+        frontRightPan = Range.clip(drive - pan, -1.0, 1.0);
+        backLeftPan = Range.clip(drive - pan, -1.0, 1.0);
+        backRightPan = Range.clip(drive + pan, -1.0, 1.0);
+        frontLeftMotor.setPower(powerScale * frontLeftPan);
+        frontRightMotor.setPower(powerScale * frontRightPan);
+        backLeftMotor.setPower(powerScale * backLeftPan);
+        backRightMotor.setPower(powerScale * backRightPan);
+
+        // Incrementing speed for driving motor, up speeds up motors, down slows down motors
+        if (gamepad1.dpad_up && !powerSwitching)
         {
-            frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            powerSwitching = true;
+            powerScale += 0.2;
         }
-
-        if (gamepad1.circle) {
-            run_auto = true;
-        }
-
-        if (run_auto)
+        if (gamepad1.dpad_down && !powerSwitching)
         {
-            if (!move1finished)
-            {
-                //1.move left
-                frontLeftMotor.setTargetPosition(759);
-                frontRightMotor.setTargetPosition(759);
-                backLeftMotor.setTargetPosition(-759);
-                backRightMotor.setTargetPosition(-759);
-
-                frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                frontLeftMotor.setPower(0.4);
-                frontRightMotor.setPower(0.4);
-                backLeftMotor.setPower(0.4);
-                backRightMotor.setPower(0.4);
-
-                // switch to 2nd move when all encoders are within 5 of target value
-                if (Math.abs(frontLeftMotor.getCurrentPosition() - 759) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - 759) < 5 &&
-                        Math.abs(backLeftMotor.getCurrentPosition() + 759) < 5 && Math.abs(backRightMotor.getCurrentPosition() + 759) < 5)
-                {
-                    move1finished = true;
-                    frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
-                }
-            }
-
-            if (move1finished && !move2finished)
-            {
-                // 2.move forward
-                telemetry.addLine("Starting 2nd move");
-                frontLeftMotor.setTargetPosition(-759);
-                frontRightMotor.setTargetPosition(759);
-                backLeftMotor.setTargetPosition(-759);
-                backRightMotor.setTargetPosition(759);
-
-                frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                frontLeftMotor.setPower(0.4);
-                frontRightMotor.setPower(0.4);
-                backLeftMotor.setPower(0.4);
-                backRightMotor.setPower(0.4);
-
-                if (Math.abs(frontLeftMotor.getCurrentPosition() + 759) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - 759) < 5 &&
-                        Math.abs(backLeftMotor.getCurrentPosition() + 759) < 5 && Math.abs(backRightMotor.getCurrentPosition() - 759) < 5)
-                {
-                    move2finished = true;
-                    frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                }
-
-            }
-            if (move2finished && !move3finished)
-            {
-                // 3.move right
-                telemetry.addLine("Starting 3rd move");
-                frontLeftMotor.setTargetPosition(-759);
-                frontRightMotor.setTargetPosition(-759);
-                backLeftMotor.setTargetPosition(759);
-                backRightMotor.setTargetPosition(759);
-
-                frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                frontLeftMotor.setPower(0.4);
-                frontRightMotor.setPower(0.4);
-                backLeftMotor.setPower(0.4);
-                backRightMotor.setPower(0.4);
-
-                if (Math.abs(frontLeftMotor.getCurrentPosition() + 759) < 5 && Math.abs(frontRightMotor.getCurrentPosition() + 759) < 5 &&
-                        Math.abs(backLeftMotor.getCurrentPosition() - 759) < 5 && Math.abs(backRightMotor.getCurrentPosition() - 759) < 5)
-                {
-                    move3finished = true;
-                    frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                }
-
-            }
-            if (move3finished && !move4finished)
-            {
-                // 4.move back
-                telemetry.addLine("Starting 4th move");
-                frontLeftMotor.setTargetPosition(759);
-                frontRightMotor.setTargetPosition(-759);
-                backLeftMotor.setTargetPosition(759);
-                backRightMotor.setTargetPosition(-759);
-
-                frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                frontLeftMotor.setPower(0.4);
-                frontRightMotor.setPower(0.4);
-                backLeftMotor.setPower(0.4);
-                backRightMotor.setPower(0.4);
-
-                if (Math.abs(frontLeftMotor.getCurrentPosition() - 759) < 5 && Math.abs(frontRightMotor.getCurrentPosition() + 759) < 5 &&
-                        Math.abs(backLeftMotor.getCurrentPosition() - 759) < 5 && Math.abs(backRightMotor.getCurrentPosition() + 759) < 5)
-                {
-                    move4finished = true;
-                    frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                }
-
-            }
-
-
-            // reset flags
-            if (move4finished)
-            {
-                move1finished = false;
-                move2finished = false;
-                move3finished = false;
-                move4finished = false;
-                run_auto = false;
-            }
-
-
-
-
-
+            powerSwitching = true;
+            powerScale -= 0.2;
+        }
+        if (!gamepad1.dpad_down && !gamepad1.dpad_up && powerSwitching)
+        {
+            powerSwitching = false;
         }
 
-
+        // Clamp for driving power scale
+        powerScale = Range.clip(powerScale, 0.2, 1.0);
 
         // Output telemetry
-        telemetry.addData("Front Left", frontLeftMotor.getCurrentPosition());
-        telemetry.addData("FL Target", frontLeftMotor.getTargetPosition());
-
-        telemetry.addData("Front Right", frontRightMotor.getCurrentPosition());
-        telemetry.addData("FR Target", frontRightMotor.getTargetPosition());
-
-        telemetry.addData("Back Left", backLeftMotor.getCurrentPosition());
-        telemetry.addData("BL Target", backLeftMotor.getTargetPosition());
-
-        telemetry.addData("Back Right", backRightMotor.getCurrentPosition());
-        telemetry.addData("BR Target", backRightMotor.getTargetPosition());
-
-        telemetry.addData("Move 1 finished?", move1finished);
-        telemetry.addData("Move 2 finished?", move2finished);
-        telemetry.addData("Move 3 finished?", move3finished);
-        telemetry.addData("Move 4 finished?", move4finished);
+        telemetry.addLine("Power Scale:" + powerScale);
     }
 
     @Override
     public void stop ()
     {
-        // I don't know how many years in a row I have to reiterate this, pls do
+        // I don't know how many years in a row I have to reiterate this, pls do... I second this
         frontLeftMotor.setPower(0.0);
         frontRightMotor.setPower(0.0);
         backLeftMotor.setPower(0.0);

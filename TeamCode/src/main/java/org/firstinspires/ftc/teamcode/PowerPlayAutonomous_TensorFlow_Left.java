@@ -751,7 +751,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
 
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() < -85 && frontRightMotor.getCurrentPosition() < -85)
+                            if (liftMotor.getCurrentPosition() > 3595)
                             {
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -762,6 +762,12 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
+
+                                rotateServo.setPower(-0.7);
+
+                                sleep(300);
+                                clawServo.setPower(0.1);
+                                sleep(500);
 
                                 step++;
                             }
@@ -790,7 +796,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (liftMotor.getCurrentPosition() > 3595)
+                            if (frontLeftMotor.getCurrentPosition() < -85 && frontRightMotor.getCurrentPosition() < -85)
                             {
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -801,12 +807,6 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
-
-                                rotateServo.setPower(-0.7);
-
-                                sleep(300);
-                                clawServo.setPower(0.1);
-                                sleep(500);
 
                                 step++;
                             }

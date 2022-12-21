@@ -648,10 +648,10 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             backLeftMotor.setPower(-0.32);
                             backRightMotor.setPower(0.32);
 
-                            frontLeftMotor.setTargetPosition(630);
-                            frontRightMotor.setTargetPosition(-630);
-                            backLeftMotor.setTargetPosition(-630);
-                            backRightMotor.setTargetPosition(630);
+                            frontLeftMotor.setTargetPosition(600);
+                            frontRightMotor.setTargetPosition(-600);
+                            backLeftMotor.setTargetPosition(-600);
+                            backRightMotor.setTargetPosition(600);
 
                             liftMotor.setTargetPosition(1500);
 
@@ -661,7 +661,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() > 625 && frontRightMotor.getCurrentPosition() < -625)
+                            if (frontLeftMotor.getCurrentPosition() > 595 && frontRightMotor.getCurrentPosition() < -595)
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
@@ -1000,7 +1000,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             }
                         } */
 
-                        if (step == 16 && parkingPosition == 1) // B, drive forward
+                        if (step == 13 && parkingPosition == 1) // B, drive forward
                         {
                             frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(0.32);
@@ -1034,7 +1034,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             }
                         }
 
-                        if (step == 16 && parkingPosition == 2) // O, drive forward, but only slightly
+                        if (step == 13 && parkingPosition == 2) // O, drive forward, but only slightly
                         {
                             frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(0.32);
@@ -1068,7 +1068,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             }
                         }
 
-                        if (step == 16 && parkingPosition == 3) // K, drive backward
+                        if (step == 13 && parkingPosition == 3) // K, drive backward
                         {
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(-0.32);

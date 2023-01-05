@@ -721,6 +721,9 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
 
                         if (step == 12) // return to base
                         {
+                            rotateServo.setPower(0.5);
+                            clawServo.setPower(0.52);
+
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(0.32);
                             backLeftMotor.setPower(0.32);

@@ -241,7 +241,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (parkingPosition == 0 && currentTime >= 3000)
                         {
-                            parkingPosition = 0;
+                            parkingPosition = 1;
                             ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_GRAY);
                         }
 

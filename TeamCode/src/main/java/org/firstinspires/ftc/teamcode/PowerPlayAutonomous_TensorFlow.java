@@ -217,7 +217,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             telemetry.addData("- Position (Row/Col)","%.0f / %.0f", row, col);
                             telemetry.addData("- Size (Width/Height)","%.0f / %.0f", width, height);
 
-                            currentTime = System.currentTimeMillis();
+                            currentTime = System.currentTimeMillis() - initTime;
                             if (parkingPosition == 0)
                             {
                                 if (recognition.getLabel() == "Pink" || currentTime > 3000)

@@ -193,6 +193,9 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
             zeroAngleY = lastAngles.secondAngle;
             zeroAngleZ = lastAngles.thirdAngle;
 
+            long initTime = System.currentTimeMillis();
+            long currentTime;
+
             while (opModeIsActive()) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
@@ -214,9 +217,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             telemetry.addData("- Position (Row/Col)","%.0f / %.0f", row, col);
                             telemetry.addData("- Size (Width/Height)","%.0f / %.0f", width, height);
 
+                            currentTime = System.currentTimeMillis();
                             if (parkingPosition == 0)
                             {
-                                if (recognition.getLabel() == "Pink")
+                                if (recognition.getLabel() == "Pink" || currentTime > 3000)
                                 {
                                     parkingPosition = 1;
                                     ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.HOT_PINK);

@@ -195,7 +195,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
             zeroAngleZ = lastAngles.thirdAngle;
 
             long initTime = System.currentTimeMillis();
-            long currentTime;
+            long currentTime = 0;
 
             while (opModeIsActive()) {
                 if (tfod != null) {
@@ -217,9 +217,6 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100 );
                             telemetry.addData("- Position (Row/Col)","%.0f / %.0f", row, col);
                             telemetry.addData("- Size (Width/Height)","%.0f / %.0f", width, height);
-
-                            currentTime = System.currentTimeMillis() - initTime;
-                            telemetry.addData("Time is", currentTime);
                             if (parkingPosition == 0)
                             {
                                 if (recognition.getLabel() == "Pink" || currentTime > 3000)
@@ -245,6 +242,8 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 }
                             }
                         }
+                        currentTime = System.currentTimeMillis() - initTime;
+                        telemetry.addData("Time is", currentTime);
                         telemetry.update();
 
                         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);

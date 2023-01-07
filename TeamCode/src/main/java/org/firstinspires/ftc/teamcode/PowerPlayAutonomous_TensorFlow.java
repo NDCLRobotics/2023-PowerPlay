@@ -283,7 +283,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backRightMotor.setTargetPosition(driveDistance);
 
                             // test number, do calculations
-                            liftMotor.setTargetPosition(3500);
+                            liftMotor.setTargetPosition(3400);
 
                             rotateServo.setPower(0.5);
                             clawServo.setPower(0.52);

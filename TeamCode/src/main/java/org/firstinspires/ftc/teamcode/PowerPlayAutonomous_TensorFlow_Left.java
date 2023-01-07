@@ -219,6 +219,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             telemetry.addData("- Size (Width/Height)","%.0f / %.0f", width, height);
 
                             currentTime = System.currentTimeMillis() - initTime;
+                            telemetry.addData("Time is", currentTime);
                             if (parkingPosition == 0)
                             {
                                 if (recognition.getLabel() == "Pink" || currentTime > 3000)
@@ -232,10 +233,15 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                     parkingPosition = 2;
                                     ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
                                 }
-                                else
+                                else if (recognition.getLabel() == "Green")
                                 {
                                     parkingPosition = 3;
                                     ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+                                }
+                                else if (currentTime > 3000)
+                                {
+                                    parkingPosition = 0;
+                                    ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_GRAY);
                                 }
                             }
                         }

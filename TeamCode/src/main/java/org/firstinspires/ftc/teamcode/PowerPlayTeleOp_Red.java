@@ -13,9 +13,9 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Stack;
 
-@TeleOp(name="Power Play TeleOp", group="Interactive Opmode")
+@TeleOp(name="Power Play TeleOp - Red", group="Interactive Opmode")
 
-public class PowerPlayTeleOp extends OpMode
+public class PowerPlayTeleOp_Red extends OpMode
 {
     // Control Hub
     private DcMotor frontLeftMotor = null;
@@ -112,7 +112,7 @@ public class PowerPlayTeleOp extends OpMode
         rotateServo = hardwareMap.crservo.get("rotateServo");
 
         ledLights = hardwareMap.get(RevBlinkinLedDriver.class, "ledLights");
-        ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
+        ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
 
         // Set direction to the motors (may need to change depending on orientation of robot)
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -313,15 +313,6 @@ public class PowerPlayTeleOp extends OpMode
         if (gamepad1.triangle && gamepad2.circle)
         {
             liftMotorZero = liftMotor.getCurrentPosition();
-        }
-
-        if (gamepad1.options)
-        {
-            ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
-        }
-        if (gamepad1.share)
-        {
-            ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
         }
 
         // Clamp for driving power scale

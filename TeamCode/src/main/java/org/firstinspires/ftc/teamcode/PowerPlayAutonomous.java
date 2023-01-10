@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -26,7 +27,9 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 
+/*@Autonomous*/
 @Autonomous(name="Power Play Auto", group="Interactive Opmode")
+@Disabled
 public class PowerPlayAutonomous extends OpMode
 {
 

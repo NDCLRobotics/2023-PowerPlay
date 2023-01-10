@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.Range;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -36,6 +37,7 @@ public class PowerPlayTeleOp_Red extends OpMode
     double clawPos = 0.4;
     double rotatePos = -0.1;
     double lightValue = 0.91;
+    private UltrasonicSensor ultrasonicSensor;
 
     // Frames
     private long currentFrame;

@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.Range;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -27,8 +28,7 @@ public class PowerPlayTeleOp_Blue extends OpMode
     private CRServo rotateServo = null;
 
     RevBlinkinLedDriver ledLights;
-
-
+    UltrasonicSensor ultrasonicSensor;
 
     private int liftMotorPos;
     private int liftMotorZero;
@@ -56,6 +56,8 @@ public class PowerPlayTeleOp_Blue extends OpMode
 
     private boolean godMode = false;
     private boolean switching = false;
+
+    private double distance = -6418;
 
     // Pull the date of the file (to update the date of telemetry)
     File curDir = new File("./system");
@@ -114,6 +116,8 @@ public class PowerPlayTeleOp_Blue extends OpMode
         ledLights = hardwareMap.get(RevBlinkinLedDriver.class, "ledLights");
         ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
 
+        ultrasonicSensor = hardwareMap.ultrasonicSensor.get("sonic");
+
         // Set direction to the motors (may need to change depending on orientation of robot)
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -165,6 +169,8 @@ public class PowerPlayTeleOp_Blue extends OpMode
         telemetry.addData("Front Right", frontRightMotor.getCurrentPosition());
         telemetry.addData("Back Left", backLeftMotor.getCurrentPosition());
         telemetry.addData("Back Right", backRightMotor.getCurrentPosition());
+        telemetry.addLine("\nSensors");
+        telemetry.addData("Ultrasonic", distance);
 
 
         currentFrame += 1;
@@ -201,6 +207,11 @@ public class PowerPlayTeleOp_Blue extends OpMode
         frontRightMotor.setPower(powerScale * frontRightPan);
         backLeftMotor.setPower(powerScale * backLeftPan);
         backRightMotor.setPower(powerScale * backRightPan);
+
+        if (gamepad1.options)
+        {
+            distance = ultrasonicSensor.getUltrasonicLevel();
+        }
 
         // Incrementing speed for driving motor, up speeds up motors, down slows down motors
         if (gamepad1.dpad_up && !powerSwitching)

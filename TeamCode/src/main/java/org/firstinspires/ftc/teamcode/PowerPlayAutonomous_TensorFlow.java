@@ -387,7 +387,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 3) // Dunk and drop cone
                         {
-                            frontLeftMotor.setPower(0.32);
+                            /* frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(0.32);
                             backLeftMotor.setPower(0.32);
                             backRightMotor.setPower(0.32);
@@ -421,7 +421,15 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                                 sleep(250);
                                 step++;
-                            }
+                            } */
+
+                            rotateServo.setPower(-0.7);
+
+                            sleep(300);
+                            clawServo.setPower(0.1);
+
+                            sleep(250);
+                            step++;
                         }
 
                         if (step == 4) // Reset claw position

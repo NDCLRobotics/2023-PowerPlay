@@ -647,10 +647,10 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backLeftMotor.setPower(0.32);
                             backRightMotor.setPower(-0.32);
 
-                            frontLeftMotor.setTargetPosition(-630);
-                            frontRightMotor.setTargetPosition(630);
-                            backLeftMotor.setTargetPosition(630);
-                            backRightMotor.setTargetPosition(-630);
+                            frontLeftMotor.setTargetPosition(-650);
+                            frontRightMotor.setTargetPosition(650);
+                            backLeftMotor.setTargetPosition(650);
+                            backRightMotor.setTargetPosition(-650);
 
                             liftMotor.setTargetPosition(1500);
 
@@ -660,7 +660,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() < -625 && frontRightMotor.getCurrentPosition() > 625)
+                            if (frontLeftMotor.getCurrentPosition() < -645 && frontRightMotor.getCurrentPosition() > 645)
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
@@ -725,17 +725,17 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backLeftMotor.setPower(-0.32);
                             backRightMotor.setPower(0.32);
 
-                            frontLeftMotor.setTargetPosition(600);
-                            frontRightMotor.setTargetPosition(-600);
-                            backLeftMotor.setTargetPosition(-600);
-                            backRightMotor.setTargetPosition(600);
+                            frontLeftMotor.setTargetPosition(620);
+                            frontRightMotor.setTargetPosition(-620);
+                            backLeftMotor.setTargetPosition(-620);
+                            backRightMotor.setTargetPosition(620);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() > 595 && frontRightMotor.getCurrentPosition() < -595)
+                            if (frontLeftMotor.getCurrentPosition() > 615 && frontRightMotor.getCurrentPosition() < -615)
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);

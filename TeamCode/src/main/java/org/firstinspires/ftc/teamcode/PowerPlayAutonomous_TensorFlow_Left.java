@@ -491,10 +491,10 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             backLeftMotor.setPower(-0.32);
                             backRightMotor.setPower(0.32);
 
-                            frontLeftMotor.setTargetPosition(-1510);
-                            frontRightMotor.setTargetPosition(1510);
-                            backLeftMotor.setTargetPosition(-1510);
-                            backRightMotor.setTargetPosition(1510);
+                            frontLeftMotor.setTargetPosition(-1525);
+                            frontRightMotor.setTargetPosition(1525);
+                            backLeftMotor.setTargetPosition(-1525);
+                            backRightMotor.setTargetPosition(1525);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -507,7 +507,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             rotateServo.setPower(-0.1);
                             clawServo.setPower(0.1);
 
-                            if (frontLeftMotor.getCurrentPosition() < -1505 && frontRightMotor.getCurrentPosition() > 1505)
+                            if (frontLeftMotor.getCurrentPosition() < -1520 && frontRightMotor.getCurrentPosition() > 1520)
                             {
                                 sleep(250);
 

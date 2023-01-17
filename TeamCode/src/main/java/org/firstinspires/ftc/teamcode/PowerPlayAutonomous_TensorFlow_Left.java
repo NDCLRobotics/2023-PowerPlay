@@ -472,6 +472,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
 
                                 rotateServo.setPower(0.5);
 
+                                sleep(250);
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

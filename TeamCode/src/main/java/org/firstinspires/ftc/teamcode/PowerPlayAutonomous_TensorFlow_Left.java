@@ -453,17 +453,17 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             backLeftMotor.setPower(-0.32);
                             backRightMotor.setPower(0.32);
 
-                            frontLeftMotor.setTargetPosition(650);
-                            frontRightMotor.setTargetPosition(-650);
-                            backLeftMotor.setTargetPosition(-650);
-                            backRightMotor.setTargetPosition(650);
+                            frontLeftMotor.setTargetPosition(625);
+                            frontRightMotor.setTargetPosition(-625);
+                            backLeftMotor.setTargetPosition(-625);
+                            backRightMotor.setTargetPosition(625);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() > 645 && frontRightMotor.getCurrentPosition() < -645)
+                            if (frontLeftMotor.getCurrentPosition() > 620 && frontRightMotor.getCurrentPosition() < -620)
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
@@ -508,6 +508,8 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
 
                             if (frontLeftMotor.getCurrentPosition() < -1505 && frontRightMotor.getCurrentPosition() > 1505)
                             {
+                                sleep(250);
+
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -518,6 +520,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
+                                sleep(250);
                                 step++;
                                 step++;
                             }

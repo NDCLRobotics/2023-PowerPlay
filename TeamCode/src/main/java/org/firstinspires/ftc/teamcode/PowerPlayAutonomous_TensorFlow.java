@@ -54,7 +54,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
     private RevBlinkinLedDriver ledLights;
 
     // Other
-    private int driveDistance, turnDirection;
+    private int driveDistance;
     private int step = 0;
     private int beganSmoothTravel = 0;
     private int parkingPosition = 0;
@@ -297,8 +297,6 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             // Check if we are within range of 5 encoder ticks to our goal before continuing.
                             if (frontLeftMotor.getCurrentPosition() > (driveDistance - 5) && frontRightMotor.getCurrentPosition() > (driveDistance - 5))
                             {
-                                // TEST SLEEP CHANGE FOR CONSISTENCY
-
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
@@ -337,8 +335,6 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                             if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 5) && backRightMotor.getCurrentPosition() > (driveDistance - 5))
                             {
-                                // TEST CHANGE!!!!
-
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
@@ -351,7 +347,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                                sleep(250); // this was previously removed, test.
+                                sleep(250);
                                 step++;
                             }
                         }
@@ -404,7 +400,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                                 rotateServo.setPower(0.5);
 
-                                sleep(250); // more testing
+                                sleep(250);
 
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -578,6 +574,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+                                sleep(250);
                                 step++;
                             }
                         }
@@ -610,7 +607,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                                 rotateServo.setPower(-0.1);
 
-                                sleep(250); // yawwwwwwnnnnn
+                                sleep(250);
 
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -656,7 +653,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                sleep(250); // komala
+                                sleep(250);
 
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -694,7 +691,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                sleep(250); // what I wish I was able to do during the week
+                                sleep(250);
 
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

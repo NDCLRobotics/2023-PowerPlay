@@ -49,17 +49,15 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
     private float currentAngleX, currentAngleY, currentAngleZ;
     private float zeroAngleX, zeroAngleY, zeroAngleZ;
     private float finalRotAngle = 64.18f;
-    
+
     /// Lights
     private RevBlinkinLedDriver ledLights;
 
     // Other
-    private int driveDistance, turnDirection;
+    private int driveDistance;
     private int step = 0;
     private int beganSmoothTravel = 0;
     private int parkingPosition = 0;
-    private long initTime;
-    private double desiredTime, smoothSpeed;
 
     /*
      * Specify the source for the Tensor Flow Model.
@@ -216,6 +214,8 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100 );
                             telemetry.addData("- Position (Row/Col)","%.0f / %.0f", row, col);
                             telemetry.addData("- Size (Width/Height)","%.0f / %.0f", width, height);
+
+                            // Read signal sleeve to determine parking position
                             if (parkingPosition == 0)
                             {
                                 if (recognition.getLabel() == "Pink" || currentTime > 3000)
@@ -236,12 +236,14 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 }
                            }
                         }
+
+                        // If the signal sleeve is not detected within three seconds, go with a backup route.
                         currentTime = System.currentTimeMillis() - initTime;
                         telemetry.addData("Time is", currentTime);
 
                         if (parkingPosition == 0 && currentTime >= 3000)
                         {
-                            parkingPosition = 1;
+                            parkingPosition = 4;
                             ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_GRAY);
                         }
 
@@ -282,7 +284,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
 
                         if (parkingPosition != 0 && step == 0)
                         {
-                            step++;
+                            step++; // Begin the program once the parking position is determined.
                         }
 
                         if (step == 1) // Move forward
@@ -294,7 +296,6 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             backLeftMotor.setTargetPosition(driveDistance);
                             backRightMotor.setTargetPosition(driveDistance);
 
-                            // test number, do calculations
                             liftMotor.setTargetPosition(3500);
 
                             rotateServo.setPower(0.5);
@@ -307,132 +308,103 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
 
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            /* if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 355 && Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) > 100)
+                            // Check if we are within range of 5 encoder ticks to our goal before continuing.
+                            if (frontLeftMotor.getCurrentPosition() > (driveDistance - 5) && frontRightMotor.getCurrentPosition() > (driveDistance - 5))
                             {
-                                if (beganSmoothTravel == 0)
-                                {
-                                    initTime = System.currentTimeMillis();
-                                    beganSmoothTravel++;
-                                }
+                                frontLeftMotor.setPower(0.0);
+                                frontRightMotor.setPower(0.0);
+                                backLeftMotor.setPower(0.0);
+                                backRightMotor.setPower(0.0);
 
-                                desiredTime = 4000;
-                                smoothSpeed = smoothDecel(4000, 0.4, initTime);
+                                sleep(250);
 
-                                frontLeftMotor.setPower(smoothSpeed);
-                                frontRightMotor.setPower(smoothSpeed);
-                                backLeftMotor.setPower(smoothSpeed);
-                                backRightMotor.setPower(smoothSpeed);
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                                sleep(250);
+                                step++;
                             }
-                            else */ if (Math.abs(frontLeftMotor.getCurrentPosition() - driveDistance) < 5 && Math.abs(frontRightMotor.getCurrentPosition() - driveDistance) < 5)
-                        {
-                            frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                            frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                            backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                            backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                            frontLeftMotor.setPower(0.0);
-                            frontRightMotor.setPower(0.0);
-                            backLeftMotor.setPower(0.0);
-                            backRightMotor.setPower(0.0);
-
-                                /* frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); */
-
-                            step++;
-                        }
                         }
 
                         if (step == 2) // Turn right 90 degrees
                         {
-                            finalRotAngle = 75f;
+                            driveDistance = 760;
 
                             frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(-0.32);
                             backLeftMotor.setPower(0.32);
                             backRightMotor.setPower(-0.32);
 
-                            frontLeftMotor.setTargetPosition(760);
-                            frontRightMotor.setTargetPosition(-760);
-                            backLeftMotor.setTargetPosition(760);
-                            backRightMotor.setTargetPosition(-760);
+                            frontLeftMotor.setTargetPosition(driveDistance);
+                            frontRightMotor.setTargetPosition(-driveDistance);
+                            backLeftMotor.setTargetPosition(driveDistance);
+                            backRightMotor.setTargetPosition(-driveDistance);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() > 755 && frontRightMotor.getCurrentPosition() < -755)
+                            if (frontLeftMotor.getCurrentPosition() > (driveDistance - 5) && frontRightMotor.getCurrentPosition() < -(driveDistance - 5))
                             {
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
+                                sleep(250);
+
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                                sleep(250);
                                 step++;
                             }
-
-                            /* if (currentAngleY >= finalRotAngle)
-                            {
-                                frontLeftMotor.setPower(0.0);
-                                frontRightMotor.setPower(0.0);
-                                backLeftMotor.setPower(0.0);
-                                backRightMotor.setPower(0.0);
-
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                                rotateServo.setPower(-0.7);
-
-                                sleep(300);
-                                clawServo.setPower(0.1);
-
-                                step++;
-                            } */
                         }
 
                         if (step == 3) // Dunk and drop cone
                         {
+                            driveDistance = 120;
+
                             frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(0.32);
                             backLeftMotor.setPower(0.32);
                             backRightMotor.setPower(0.32);
 
-                            frontLeftMotor.setTargetPosition(120);
-                            frontRightMotor.setTargetPosition(120);
-                            backLeftMotor.setTargetPosition(120);
-                            backRightMotor.setTargetPosition(120);
+                            frontLeftMotor.setTargetPosition(driveDistance);
+                            frontRightMotor.setTargetPosition(driveDistance);
+                            backLeftMotor.setTargetPosition(driveDistance);
+                            backRightMotor.setTargetPosition(driveDistance);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() > 115 && frontRightMotor.getCurrentPosition() > 115)
+                            if (frontLeftMotor.getCurrentPosition() > (driveDistance - 5) && frontRightMotor.getCurrentPosition() > (driveDistance - 5))
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
+                                rotateServo.setPower(-0.7);
+
+                                sleep(250);
+
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                                rotateServo.setPower(-0.7);
-
                                 sleep(300);
                                 clawServo.setPower(0.1);
 
+                                sleep(250);
                                 step++;
                             }
                         }
@@ -442,27 +414,30 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             sleep(500);
                             clawServo.setPower(0.52);
 
+                            sleep(250);
                             step++;
                         }
 
                         if (step == 5) // Pan over a smidgen
                         {
+                            driveDistance = 625;
+
                             frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(-0.32);
                             backLeftMotor.setPower(-0.32);
                             backRightMotor.setPower(0.32);
 
-                            frontLeftMotor.setTargetPosition(625);
-                            frontRightMotor.setTargetPosition(-625);
-                            backLeftMotor.setTargetPosition(-625);
-                            backRightMotor.setTargetPosition(625);
+                            frontLeftMotor.setTargetPosition(driveDistance);
+                            frontRightMotor.setTargetPosition(-driveDistance);
+                            backLeftMotor.setTargetPosition(-driveDistance);
+                            backRightMotor.setTargetPosition(driveDistance);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() > 620 && frontRightMotor.getCurrentPosition() < -620)
+                            if (frontLeftMotor.getCurrentPosition() > (driveDistance - 5) && frontRightMotor.getCurrentPosition() < -(driveDistance - 5))
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
@@ -472,11 +447,13 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 rotateServo.setPower(0.5);
 
                                 sleep(250);
+
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+                                sleep(250);
                                 step++;
                             }
                         }
@@ -484,16 +461,17 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
 
                         if (step == 6) // Make a sick 180 to get ready to pick up a cone
                         {
+                            driveDistance = 1535;
 
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(0.32);
                             backLeftMotor.setPower(-0.32);
                             backRightMotor.setPower(0.32);
 
-                            frontLeftMotor.setTargetPosition(-1535);
-                            frontRightMotor.setTargetPosition(1535);
-                            backLeftMotor.setTargetPosition(-1535);
-                            backRightMotor.setTargetPosition(1535);
+                            frontLeftMotor.setTargetPosition(-driveDistance);
+                            frontRightMotor.setTargetPosition(driveDistance);
+                            backLeftMotor.setTargetPosition(-driveDistance);
+                            backRightMotor.setTargetPosition(driveDistance);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -506,183 +484,92 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             rotateServo.setPower(-0.1);
                             clawServo.setPower(0.1);
 
-                            if (frontLeftMotor.getCurrentPosition() < -1530 && frontRightMotor.getCurrentPosition() > 1530)
+                            if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 5) && frontRightMotor.getCurrentPosition() > (driveDistance - 5))
                             {
-                                sleep(250);
-
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
                                 sleep(250);
-                                step++;
-                                step++;
-                            }
-                        }
-                        if (step == 7) // 180 turn correction
-                        {
-                            if (currentAngleY < 88)
-                            {
-                                telemetry.addLine("Correct Left");
-                                frontLeftMotor.setPower(-0.15);
-                                frontRightMotor.setPower(0.15);
-                                backLeftMotor.setPower(-0.15);
-                                backRightMotor.setPower(0.15);
-
-                                frontLeftMotor.setTargetPosition(-3);
-                                frontRightMotor.setTargetPosition(3);
-                                backLeftMotor.setTargetPosition(-3);
-                                backRightMotor.setTargetPosition(3);
-
-                                frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                            }
-                            else if (currentAngleY > 92)
-                            {
-                                telemetry.addLine("Correct Right");
-                                frontLeftMotor.setPower(0.15);
-                                frontRightMotor.setPower(-0.15);
-                                backLeftMotor.setPower(0.15);
-                                backRightMotor.setPower(-0.15);
 
-                                frontLeftMotor.setTargetPosition(6);
-                                frontRightMotor.setTargetPosition(-6);
-                                backLeftMotor.setTargetPosition(6);
-                                backRightMotor.setTargetPosition(-6);
-
-                                frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                            }
-                            else
-                            {
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+                                sleep(250);
                                 step++;
                             }
                         }
-                        if (step == 8)
+
+                        if (step == 7) // moves forward and picks up cone
                         {
+                            driveDistance = 1100;
+
                             frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(0.32);
                             backLeftMotor.setPower(0.32);
                             backRightMotor.setPower(0.32);
 
-                            frontLeftMotor.setTargetPosition(1100);
-                            frontRightMotor.setTargetPosition(1100);
-                            backLeftMotor.setTargetPosition(1100);
-                            backRightMotor.setTargetPosition(1100);
+                            frontLeftMotor.setTargetPosition(driveDistance);
+                            frontRightMotor.setTargetPosition(driveDistance);
+                            backLeftMotor.setTargetPosition(driveDistance);
+                            backRightMotor.setTargetPosition(driveDistance);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() > 1095 && frontRightMotor.getCurrentPosition() > 1095)
+                            if (frontLeftMotor.getCurrentPosition() > (driveDistance - 5) && frontRightMotor.getCurrentPosition() > (driveDistance - 5))
                             {
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
+
+                                sleep(250);
+
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                                 clawServo.setPower(0.52);
                                 sleep(500);
                                 rotateServo.setPower(0.5);
-                                sleep(600);
 
+                                sleep(250);
                                 step++;
                             }
                         }
 
-                        if (step == 9) // Backs up to align with low junction
+                        if (step == 8) // Backs up to align with low junction
                         {
+                            driveDistance = 1050;
+
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(-0.32);
                             backLeftMotor.setPower(-0.32);
                             backRightMotor.setPower(-0.32);
 
-                            frontLeftMotor.setTargetPosition(-1050);
-                            frontRightMotor.setTargetPosition(-1050);
-                            backLeftMotor.setTargetPosition(-1050);
-                            backRightMotor.setTargetPosition(-1050);
+                            frontLeftMotor.setTargetPosition(-driveDistance);
+                            frontRightMotor.setTargetPosition(-driveDistance);
+                            backLeftMotor.setTargetPosition(-driveDistance);
+                            backRightMotor.setTargetPosition(-driveDistance);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() < -1045 && frontRightMotor.getCurrentPosition() < -1045)
-                            {
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                                frontLeftMotor.setPower(0.0);
-                                frontRightMotor.setPower(0.0);
-                                backLeftMotor.setPower(0.0);
-                                backRightMotor.setPower(0.0);
-
-                                sleep(250);
-                                step++;
-                            }
-                        }
-
-                        if (step == 10) // pan to backtrack to step 5, but robot orientation is the same as step 7
-                        {
-                            frontLeftMotor.setPower(0.32);
-                            frontRightMotor.setPower(-0.32);
-                            backLeftMotor.setPower(-0.32);
-                            backRightMotor.setPower(0.32);
-
-                            frontLeftMotor.setTargetPosition(555);
-                            frontRightMotor.setTargetPosition(-555);
-                            backLeftMotor.setTargetPosition(-555);
-                            backRightMotor.setTargetPosition(555);
-
-                            liftMotor.setTargetPosition(1500);
-
-                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                            if (frontLeftMotor.getCurrentPosition() > 550 && frontRightMotor.getCurrentPosition() < -550)
+                            if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 5) && frontRightMotor.getCurrentPosition() < -(driveDistance - 5))
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
-
-                                rotateServo.setPower(0.5);
 
                                 sleep(250);
 
@@ -690,84 +577,8 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                step++;
-                            }
-                        }
 
-                        if (step == 11) // get ready to DUNK
-                        {
-
-                            frontLeftMotor.setPower(0.32);
-                            frontRightMotor.setPower(0.32);
-                            backLeftMotor.setPower(0.32);
-                            backRightMotor.setPower(0.32);
-
-                            frontLeftMotor.setTargetPosition(90);
-                            frontRightMotor.setTargetPosition(90);
-                            backLeftMotor.setTargetPosition(90);
-                            backRightMotor.setTargetPosition(90);
-
-                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                            if (frontLeftMotor.getCurrentPosition() > 85 && frontRightMotor.getCurrentPosition() > 85)
-                            {
-                                frontLeftMotor.setPower(0.0);
-                                frontRightMotor.setPower(0.0);
-                                backLeftMotor.setPower(0.0);
-                                backRightMotor.setPower(0.0);
-
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                                rotateServo.setPower(-0.1);
-
-                                sleep(300);
-                                clawServo.setPower(0.1);
-
-                                sleep(250);
-                                step++;
-                            }
-                        }
-
-                        if (step == 12) // return to base
-                        {
-                            rotateServo.setPower(0.5);
-
-                            frontLeftMotor.setPower(-0.32);
-                            frontRightMotor.setPower(0.32);
-                            backLeftMotor.setPower(0.32);
-                            backRightMotor.setPower(-0.32);
-
-                            frontLeftMotor.setTargetPosition(-600);
-                            frontRightMotor.setTargetPosition(600);
-                            backLeftMotor.setTargetPosition(600);
-                            backRightMotor.setTargetPosition(-600);
-
-                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                            if (frontLeftMotor.getCurrentPosition() < -595 && frontRightMotor.getCurrentPosition() > 595)
-                            {
-                                frontLeftMotor.setPower(0.0);
-                                frontRightMotor.setPower(0.0);
-                                backLeftMotor.setPower(0.0);
-                                backRightMotor.setPower(0.0);
-
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                                rotateServo.setPower(0.5);
-                                clawServo.setPower(0.52);
-                                liftMotor.setTargetPosition(0);
+                                liftMotor.setTargetPosition(1500);
                                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                                 sleep(250);
@@ -775,344 +586,202 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             }
                         }
 
-                        // OLD LEFT SIDE MOVEMENT
-                        /*if (step == 9)
+                        if (step == 9) // pan to backtrack to step 5, but robot orientation is the same as step 7
                         {
-                            frontLeftMotor.setPower(-0.32);
+                            driveDistance = 555;
+
+                            frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(-0.32);
-                            backLeftMotor.setPower(-0.32);
-                            backRightMotor.setPower(-0.32);
-
-                            frontLeftMotor.setTargetPosition(-1550);
-                            frontRightMotor.setTargetPosition(-1550);
-                            backLeftMotor.setTargetPosition(-1550);
-                            backRightMotor.setTargetPosition(-1550);
-
-                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                            if (frontLeftMotor.getCurrentPosition() < -1495 && frontRightMotor.getCurrentPosition() < -1495)
-                            {
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                                frontLeftMotor.setPower(0.0);
-                                frontRightMotor.setPower(0.0);
-                                backLeftMotor.setPower(0.0);
-                                backRightMotor.setPower(0.0);
-
-
-                                step++;
-                            }
-                        }
-
-                        if (step == 10) // Make a sick 90 to get ready to pick up a cone
-                        {
-
-                            frontLeftMotor.setPower(-0.32);
-                            frontRightMotor.setPower(0.32);
                             backLeftMotor.setPower(-0.32);
                             backRightMotor.setPower(0.32);
 
-                            frontLeftMotor.setTargetPosition(-750);
-                            frontRightMotor.setTargetPosition(750);
-                            backLeftMotor.setTargetPosition(-750);
-                            backRightMotor.setTargetPosition(750);
+                            frontLeftMotor.setTargetPosition(driveDistance);
+                            frontRightMotor.setTargetPosition(-driveDistance);
+                            backLeftMotor.setTargetPosition(-driveDistance);
+                            backRightMotor.setTargetPosition(driveDistance);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-
-                            if (frontLeftMotor.getCurrentPosition() < -745 && frontRightMotor.getCurrentPosition() > 745)
+                            if (frontLeftMotor.getCurrentPosition() > (driveDistance - 5) && frontRightMotor.getCurrentPosition() < -(driveDistance - 5))
                             {
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                step++;
-                                step++;
-                            }
-                        }
-                        if (step == 11) // 90 turn correction
-                        {
-                            if (currentAngleY < 178)
-                            {
-                                frontLeftMotor.setPower(-0.2);
-                                frontRightMotor.setPower(0.2);
-                                backLeftMotor.setPower(-0.2);
-                                backRightMotor.setPower(0.2);
+                                rotateServo.setPower(0.5);
 
-                                frontLeftMotor.setTargetPosition(-6);
-                                frontRightMotor.setTargetPosition(6);
-                                backLeftMotor.setTargetPosition(-6);
-                                backRightMotor.setTargetPosition(6);
-
-                                frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                                sleep(250);
 
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                            }
-                            else if (currentAngleY > 182)
-                            {
-                                frontLeftMotor.setPower(0.2);
-                                frontRightMotor.setPower(-0.2);
-                                backLeftMotor.setPower(0.2);
-                                backRightMotor.setPower(-0.2);
 
-                                frontLeftMotor.setTargetPosition(6);
-                                frontRightMotor.setTargetPosition(-6);
-                                backLeftMotor.setTargetPosition(6);
-                                backRightMotor.setTargetPosition(-6);
-
-                                frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                            }
-                            else
-                            {
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+                                sleep(250);
                                 step++;
                             }
                         }
-                        if (step == 12) // Move forward
+
+                        if (step == 10) // get ready to DUNK
                         {
                             driveDistance = 90;
+
+                            frontLeftMotor.setPower(0.32);
+                            frontRightMotor.setPower(0.32);
+                            backLeftMotor.setPower(0.32);
+                            backRightMotor.setPower(0.32);
 
                             frontLeftMotor.setTargetPosition(driveDistance);
                             frontRightMotor.setTargetPosition(driveDistance);
                             backLeftMotor.setTargetPosition(driveDistance);
                             backRightMotor.setTargetPosition(driveDistance);
 
-                            // test number, do calculations
-                            liftMotor.setTargetPosition(3600);
-
-
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                            if (liftMotor.getCurrentPosition() > 3595)
+                            if (frontLeftMotor.getCurrentPosition() > (driveDistance - 5) && frontRightMotor.getCurrentPosition() > (driveDistance - 5))
                             {
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                rotateServo.setPower(-0.7);
+                                rotateServo.setPower(-0.1);
+
+                                sleep(250);
+
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                                 sleep(300);
                                 clawServo.setPower(0.1);
-                                sleep(500);
 
+                                sleep(250);
                                 step++;
                             }
                         }
 
-                        if (step == 13) // Reset claw position
+                        if (step == 11) // return to base
                         {
-                            liftMotor.setTargetPosition(0);
                             rotateServo.setPower(0.5);
                             clawServo.setPower(0.52);
-                            if (liftMotor.getCurrentPosition() < 5)
-                            {
-                                step++;
-                            }
-                        }
+                            liftMotor.setTargetPosition(0);
+                            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                        if (step == 14) // back up before turning to park
-                        {
-                            frontLeftMotor.setTargetPosition(-90);
-                            frontRightMotor.setTargetPosition(-90);
-                            backLeftMotor.setTargetPosition(-90);
-                            backRightMotor.setTargetPosition(-90);
+                            driveDistance = 600;
 
-                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                            if (frontLeftMotor.getCurrentPosition() < -85 && frontRightMotor.getCurrentPosition() < -85)
-                            {
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                                frontLeftMotor.setPower(0.0);
-                                frontRightMotor.setPower(0.0);
-                                backLeftMotor.setPower(0.0);
-                                backRightMotor.setPower(0.0);
-
-                                step++;
-                            }
-                        }
-
-                        if (step == 15)
-                        {
-
-                            frontLeftMotor.setPower(0.32);
-                            frontRightMotor.setPower(-0.32);
+                            frontLeftMotor.setPower(-0.32);
+                            frontRightMotor.setPower(0.32);
                             backLeftMotor.setPower(0.32);
                             backRightMotor.setPower(-0.32);
 
-                            frontLeftMotor.setTargetPosition(780);
-                            frontRightMotor.setTargetPosition(-780);
-                            backLeftMotor.setTargetPosition(780);
-                            backRightMotor.setTargetPosition(-780);
+                            frontLeftMotor.setTargetPosition(-driveDistance);
+                            frontRightMotor.setTargetPosition(driveDistance);
+                            backLeftMotor.setTargetPosition(driveDistance);
+                            backRightMotor.setTargetPosition(-driveDistance);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-
-                            if (frontLeftMotor.getCurrentPosition() > 775 && frontRightMotor.getCurrentPosition() < -775)
+                            if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 5) && frontRightMotor.getCurrentPosition() > (driveDistance - 5))
                             {
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                step++;
-                            }
-                        } */
+                                sleep(250);
 
-                        if (step == 13 && parkingPosition == 1) // B, drive forward
-                        {
-                            frontLeftMotor.setPower(0.32);
-                            frontRightMotor.setPower(0.32);
-                            backLeftMotor.setPower(0.32);
-                            backRightMotor.setPower(0.32);
-
-                            frontLeftMotor.setTargetPosition(900);
-                            frontRightMotor.setTargetPosition(900);
-                            backLeftMotor.setTargetPosition(900);
-                            backRightMotor.setTargetPosition(900);
-
-                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                            if (frontLeftMotor.getCurrentPosition() > 895 && frontRightMotor.getCurrentPosition() > 895)
-                            {
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                                frontLeftMotor.setPower(0.0);
-                                frontRightMotor.setPower(0.0);
-                                backLeftMotor.setPower(0.0);
-                                backRightMotor.setPower(0.0);
 
                                 sleep(250);
                                 step++;
                             }
                         }
 
-                        /* if (step == 13 && parkingPosition == 2) // O, drive forward, but only slightly
+                        if (step == 12 && (parkingPosition == 1 || parkingPosition == 4)) // B, drive forward
                         {
+                            driveDistance = 900;
+
                             frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(0.32);
                             backLeftMotor.setPower(0.32);
                             backRightMotor.setPower(0.32);
 
-                            frontLeftMotor.setTargetPosition(425);
-                            frontRightMotor.setTargetPosition(425);
-                            backLeftMotor.setTargetPosition(425);
-                            backRightMotor.setTargetPosition(425);
+                            frontLeftMotor.setTargetPosition(driveDistance);
+                            frontRightMotor.setTargetPosition(driveDistance);
+                            backLeftMotor.setTargetPosition(driveDistance);
+                            backRightMotor.setTargetPosition(driveDistance);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() > 420 && frontRightMotor.getCurrentPosition() > 420)
+                            if (frontLeftMotor.getCurrentPosition() > (driveDistance - 5) && frontRightMotor.getCurrentPosition() > (driveDistance - 5))
                             {
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
                                 sleep(250);
+
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                                sleep(250);
                                 step++;
                             }
-                        } */
+                        }
 
-                        if (step == 13 && parkingPosition == 3) // K, drive backward
+                        if (step == 12 && parkingPosition == 3) // K, drive backward
                         {
+                            driveDistance = 1150;
+
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(-0.32);
                             backLeftMotor.setPower(-0.32);
                             backRightMotor.setPower(-0.32);
 
-                            frontLeftMotor.setTargetPosition(-1150);
-                            frontRightMotor.setTargetPosition(-1150);
-                            backLeftMotor.setTargetPosition(-1150);
-                            backRightMotor.setTargetPosition(-1150);
+                            frontLeftMotor.setTargetPosition(-driveDistance);
+                            frontRightMotor.setTargetPosition(-driveDistance);
+                            backLeftMotor.setTargetPosition(-driveDistance);
+                            backRightMotor.setTargetPosition(-driveDistance);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() < -1145 && frontRightMotor.getCurrentPosition() < -1145)
+                            if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 5) && frontRightMotor.getCurrentPosition() < -(driveDistance - 5))
                             {
-                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
+
+                                sleep(250);
+
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                                 sleep(250);
                                 step++;
@@ -1121,6 +790,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                     }
                 }
             }
+            
             // Stop function - cancel all power to the motors
             frontLeftMotor.setPower(0.0);
             frontRightMotor.setPower(0.0);

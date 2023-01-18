@@ -790,7 +790,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                     }
                 }
             }
-            
+
             // Stop function - cancel all power to the motors
             frontLeftMotor.setPower(0.0);
             frontRightMotor.setPower(0.0);

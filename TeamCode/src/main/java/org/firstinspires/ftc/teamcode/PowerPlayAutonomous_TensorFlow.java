@@ -624,11 +624,6 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 11) // return to base
                         {
-                            rotateServo.setPower(0.5);
-                            clawServo.setPower(0.52);
-                            liftMotor.setTargetPosition(0);
-                            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
                             driveDistance = 620;
 
                             frontLeftMotor.setPower(0.32);
@@ -665,7 +660,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             }
                         }
 
-                        if (step == 12 && parkingPosition == 3) // K, drive forward
+                        if (step == 12) // go to pick up third cone
                         {
                             driveDistance = 900;
 
@@ -698,14 +693,103 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+                                clawServo.setPower(0.52);
+                                sleep(500);
+                                rotateServo.setPower(0.5);
+
                                 sleep(250);
                                 step++;
                             }
                         }
 
-                        if (step == 12 && (parkingPosition == 1 || parkingPosition == 4)) // B, drive backward
+                        if (step == 13 && parkingPosition == 3) // K, slightly move back
                         {
-                            driveDistance = 1150;
+                            liftMotor.setTargetPosition(0);
+                            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                            driveDistance = 75;
+
+                            frontLeftMotor.setPower(0.32);
+                            frontRightMotor.setPower(0.32);
+                            backLeftMotor.setPower(0.32);
+                            backRightMotor.setPower(0.32);
+
+                            frontLeftMotor.setTargetPosition(-driveDistance);
+                            frontRightMotor.setTargetPosition(-driveDistance);
+                            backLeftMotor.setTargetPosition(-driveDistance);
+                            backRightMotor.setTargetPosition(-driveDistance);
+
+                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                            if (frontLeftMotor.getCurrentPosition() > -(driveDistance - 5) && frontRightMotor.getCurrentPosition() > -(driveDistance - 5))
+                            {
+                                frontLeftMotor.setPower(0.0);
+                                frontRightMotor.setPower(0.0);
+                                backLeftMotor.setPower(0.0);
+                                backRightMotor.setPower(0.0);
+
+                                sleep(250);
+
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                                sleep(250);
+                                step++;
+                            }
+                        }
+
+                        if (step == 13 && (parkingPosition == 1 || parkingPosition == 4)) // B, drive waaaaayyy back
+                        {
+                            liftMotor.setTargetPosition(0);
+                            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                            driveDistance = 2050;
+
+                            frontLeftMotor.setPower(-0.32);
+                            frontRightMotor.setPower(-0.32);
+                            backLeftMotor.setPower(-0.32);
+                            backRightMotor.setPower(-0.32);
+
+                            frontLeftMotor.setTargetPosition(-driveDistance);
+                            frontRightMotor.setTargetPosition(-driveDistance);
+                            backLeftMotor.setTargetPosition(-driveDistance);
+                            backRightMotor.setTargetPosition(-driveDistance);
+
+                            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                            if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 5) && frontRightMotor.getCurrentPosition() < -(driveDistance - 5))
+                            {
+                                frontLeftMotor.setPower(0.0);
+                                frontRightMotor.setPower(0.0);
+                                backLeftMotor.setPower(0.0);
+                                backRightMotor.setPower(0.0);
+
+                                sleep(250);
+
+                                frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                                sleep(250);
+                                step++;
+                            }
+                        }
+
+                        if (step == 13 && (parkingPosition == 1 || parkingPosition == 4)) // O, return to base chief
+                        {
+                            liftMotor.setTargetPosition(0);
+                            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                            driveDistance = 900;
 
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(-0.32);

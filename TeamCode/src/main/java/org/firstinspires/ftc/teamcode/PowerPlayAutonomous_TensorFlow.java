@@ -724,7 +724,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() > -(driveDistance - 5) && frontRightMotor.getCurrentPosition() > -(driveDistance - 5))
+                            if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 5) && frontRightMotor.getCurrentPosition() < -(driveDistance - 5))
                             {
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
@@ -784,7 +784,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             }
                         }
 
-                        if (step == 13 && (parkingPosition == 1 || parkingPosition == 4)) // O, return to base chief
+                        if (step == 13 && parkingPosition == 2) // O, return to base chief
                         {
                             liftMotor.setTargetPosition(0);
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

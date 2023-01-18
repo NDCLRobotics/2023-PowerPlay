@@ -45,7 +45,7 @@ public class PowerPlayTeleOp_Blue extends OpMode
     private double frontLeftPan, frontRightPan, backLeftPan, backRightPan;
 
     // Scale variable
-    private double powerScale = 0.6;
+    private double powerScale = 0.8;
     private boolean powerSwitching = false;
 
     private double liftScale = 0.8;
@@ -310,7 +310,7 @@ public class PowerPlayTeleOp_Blue extends OpMode
             switching = false;
         }
 
-        if (gamepad1.triangle && gamepad2.circle)
+        if (gamepad1.triangle)
         {
             liftMotorZero = liftMotor.getCurrentPosition();
         }

@@ -49,8 +49,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
     private float currentAngleX, currentAngleY, currentAngleZ;
     private float zeroAngleX, zeroAngleY, zeroAngleZ;
     private float finalRotAngle = 64.18f;
-
-
+    
     /// Lights
     private RevBlinkinLedDriver ledLights;
 

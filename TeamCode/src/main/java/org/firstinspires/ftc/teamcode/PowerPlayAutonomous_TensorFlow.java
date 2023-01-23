@@ -524,14 +524,14 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                sleep(250); // test sleep, yawn
+                                sleep(250);
 
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                                liftMotor.setTargetPosition(770);
+                                liftMotor.setTargetPosition(1500);
                                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                                 sleep(250);
@@ -654,6 +654,9 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                                liftMotor.setTargetPosition(1500);
+                                liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                                 sleep(250);
                                 step++;
@@ -823,6 +826,12 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 sleep(250);
                                 step++;
                             }
+                        }
+
+                        if (step == 14)
+                        {
+                            rotateServo.setPower(-0.7);
+                            clawServo.setPower(0.2);
                         }
                     }
                 }

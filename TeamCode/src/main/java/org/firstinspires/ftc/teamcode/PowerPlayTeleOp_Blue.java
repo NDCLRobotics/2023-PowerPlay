@@ -268,17 +268,17 @@ public class PowerPlayTeleOp_Blue extends OpMode
 
         if (gamepad2.right_bumper) // Open position for claw
         {
-            clawServo.setPower(0.1);
+            clawServo.setPower(0.2);
         }
         else if (gamepad2.left_bumper) // Closed position for claw
         {
-            clawServo.setPower(0.52);
+            clawServo.setPower(0.62);
         }
 
         if (gamepad2.triangle) // Up position for claw
         {
             rotateServo.setPower(0.5);
-            clawServo.setPower(0.52);
+            clawServo.setPower(0.62);
         }
         if (gamepad2.cross) // Down for cargo grip
         {

@@ -374,7 +374,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 5) // Pan over a smidgeon
                         {
-                            driveDistance = 650;
+                            driveDistance = 625;
 
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(0.32);
@@ -541,7 +541,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 9) // pan to backtrack to step 5, but robot orientation is the same as step 7
                         {
-                            driveDistance = 650;
+                            driveDistance = 625;
 
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(0.32);
@@ -751,7 +751,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             liftMotor.setTargetPosition(0);
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            driveDistance = 2100;
+                            driveDistance = 2200;
 
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(-0.32);
@@ -833,6 +833,9 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             rotateServo.setPower(-0.1);
                             sleep(500);
                             clawServo.setPower(0.2);
+                            sleep(500);
+                            rotateServo.setPower(0.5);
+                            clawServo.setPower(0.645);
                         }
                     }
                 }

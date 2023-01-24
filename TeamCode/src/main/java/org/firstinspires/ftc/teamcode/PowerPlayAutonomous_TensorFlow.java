@@ -751,7 +751,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             liftMotor.setTargetPosition(0);
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            driveDistance = 2050;
+                            driveDistance = 2100;
 
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(-0.32);

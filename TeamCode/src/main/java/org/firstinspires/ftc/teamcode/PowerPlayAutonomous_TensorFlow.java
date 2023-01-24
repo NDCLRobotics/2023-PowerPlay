@@ -828,7 +828,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             }
                         }
 
-                        if (step == 14 && parkingPosition == 14) // Turn left 90 degrees
+                        if (step == 14 && parkingPosition == 3) // Turn left 90 degrees
                         {
                             driveDistance = 760;
 

@@ -831,6 +831,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                         if (step == 14)
                         {
                             rotateServo.setPower(-0.1);
+                            sleep(500);
                             clawServo.setPower(0.2);
                         }
                     }

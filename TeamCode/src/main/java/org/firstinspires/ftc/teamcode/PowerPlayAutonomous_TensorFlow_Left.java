@@ -67,12 +67,11 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
     private static final String TFOD_MODEL_ASSET = "bok2electricboogaloo.tflite";
-    // private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/CustomTeamModel.tflite";
 
     private static final String[] LABELS =
-            {
-                    "Green", "Pink", "Yellow"
-            };
+        {
+                "Green", "Pink", "Yellow"
+        };
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -100,18 +99,6 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
      * Detection engine.
      */
     private TFObjectDetector tfod;
-
-    private double smoothDecel (double desiredTime, double speed, long initialTime)
-    {
-        long currentTime = System.currentTimeMillis() - initialTime;
-        return (speed/desiredTime) * Math.exp(-currentTime/desiredTime);
-    }
-
-    private double smoothAccel (double desiredTime, double speed, long initialTime)
-    {
-        long currentTime = System.currentTimeMillis() - initialTime;
-        return speed * (1 - Math.exp(-currentTime/desiredTime));
-    }
 
     @Override
     public void runOpMode() {
@@ -218,7 +205,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             // Read signal sleeve to determine parking position
                             if (parkingPosition == 0)
                             {
-                                if (recognition.getLabel() == "Pink" || currentTime > 3000)
+                                if (recognition.getLabel() == "Pink")
                                 {
                                     parkingPosition = 1;
                                     ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.HOT_PINK);
@@ -227,14 +214,14 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 else if (recognition.getLabel() == "Yellow")
                                 {
                                     parkingPosition = 2;
-                                    ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
+                                    ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED_ORANGE);
                                 }
                                 else
                                 {
                                     parkingPosition = 3;
                                     ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                                 }
-                           }
+                            }
                         }
 
                         // If the signal sleeve is not detected within three seconds, go with a backup route.
@@ -418,7 +405,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             step++;
                         }
 
-                        if (step == 5) // Pan over a smidgen
+                        if (step == 5) // Pan over a smidgeon
                         {
                             driveDistance = 625;
 
@@ -457,7 +444,6 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 step++;
                             }
                         }
-
 
                         if (step == 6) // Make a sick 180 to get ready to pick up a cone
                         {
@@ -571,7 +557,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                sleep(250);
+                                sleep(500);
 
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -671,10 +657,6 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
 
                         if (step == 11) // return to base
                         {
-                            rotateServo.setPower(0.5);
-                            clawServo.setPower(0.645);
-                            liftMotor.setTargetPosition(0);
-                            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                             driveDistance = 600;
 

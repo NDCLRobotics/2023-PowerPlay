@@ -458,7 +458,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 7) // moves forward and picks up cone
                         {
-                            driveDistance = 1150;
+                            driveDistance = 1100;
 
                             frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(0.32);

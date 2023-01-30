@@ -777,7 +777,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             }
                         }
 
-                        if (step == 13 && (parkingPosition == 1 || parkingPosition == 4)) // B, drive waaaaayyy back
+                        if (step == 13 && parkingPosition == 1) // B, drive waaaaayyy back
                         {
                             liftMotor.setTargetPosition(0);
                             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -859,7 +859,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             }
                         }
 
-                        if (step == 14 && parkingPosition == 3) // Turn left 90 degrees
+                        if (step == 14 && (parkingPosition == 3 || parkingPosition == 4)) // Turn left 90 degrees
                         {
                             driveDistance = 760;
 

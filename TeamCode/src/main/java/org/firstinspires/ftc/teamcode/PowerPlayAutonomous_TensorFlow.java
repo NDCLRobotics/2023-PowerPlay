@@ -618,8 +618,6 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 clawServo.setPower(0.4);
 
                                 sleep(250);
-                                rotateServo.setPower(0.5);
-                                clawServo.setPower(0.645);
                                 step++;
                             }
                         }
@@ -657,7 +655,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                                liftMotor.setTargetPosition(1500);
+                                liftMotor.setTargetPosition(2000);
                                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                                 sleep(250);

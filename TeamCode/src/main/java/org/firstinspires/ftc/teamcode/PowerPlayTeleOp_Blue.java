@@ -144,7 +144,7 @@ public class PowerPlayTeleOp_Blue extends OpMode
     private void autoHoming()
     {
 
-        clawServo.setPower(0.52);
+        clawServo.setPower(0.645);
         rotateServo.setPower(-0.1);
 
         // Lowers the lift motor until, it reaches the zero position
@@ -277,16 +277,16 @@ public class PowerPlayTeleOp_Blue extends OpMode
 
         if (gamepad2.triangle) // Up position for claw
         {
-            rotateServo.setPower(0.5);
+            rotateServo.setPower(0.75);
             clawServo.setPower(0.645);
         }
         if (gamepad2.cross) // Down for cargo grip
         {
-            rotateServo.setPower(-0.7);
+            rotateServo.setPower(-0.45);
         }
         else if (gamepad2.square) // horizontal for cargo grip
         {
-            rotateServo.setPower(rotatePos);
+            rotateServo.setPower(0.15);
         }
 
         if (gamepad2.touchpad || autoHome)

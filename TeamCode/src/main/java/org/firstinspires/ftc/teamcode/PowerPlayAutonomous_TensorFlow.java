@@ -284,7 +284,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                             liftMotor.setTargetPosition(3400);
 
-                            rotateServo.setPower(0.5);
+                            rotateServo.setPower(0.75);
                             clawServo.setPower(0.645);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -354,7 +354,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 3) // Dunk and drop cone
                         {
-                            rotateServo.setPower(-0.7);
+                            rotateServo.setPower(-0.45);
 
                             sleep(300);
                             clawServo.setPower(0.4);
@@ -393,14 +393,16 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                             if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 5) && backRightMotor.getCurrentPosition() < -(driveDistance - 5))
                             {
+                                sleep(250);
+
                                 frontLeftMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                rotateServo.setPower(0.5);
+                                rotateServo.setPower(0.75);
 
-                                sleep(250);
+
 
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -434,7 +436,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             liftMotor.setPower(-0.5);
                             liftMotor.setTargetPosition(1000);
 
-                            rotateServo.setPower(-0.1);
+                            rotateServo.setPower(0.15);
                             clawServo.setPower(0.4);
 
                             if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 2) && frontRightMotor.getCurrentPosition() > (driveDistance - 2))
@@ -491,7 +493,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                                 clawServo.setPower(0.645);
                                 sleep(500);
-                                rotateServo.setPower(0.5);
+                                rotateServo.setPower(0.75);
 
                                 sleep(250);
                                 step++;
@@ -519,12 +521,13 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                             if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 5) && frontRightMotor.getCurrentPosition() < -(driveDistance - 5))
                             {
+                                sleep(500);
+
                                 frontLeftMotor.setPower(0.0);
                                 frontRightMotor.setPower(0.0);
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                sleep(500);
 
                                 frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -565,7 +568,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                rotateServo.setPower(0.5);
+                                rotateServo.setPower(0.75);
 
                                 sleep(250);
 
@@ -605,7 +608,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                rotateServo.setPower(-0.1);
+                                rotateServo.setPower(0.15);
 
                                 sleep(250);
 
@@ -699,7 +702,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                                 clawServo.setPower(0.645);
                                 sleep(500);
-                                rotateServo.setPower(0.5);
+                                rotateServo.setPower(0.75);
 
                                 sleep(250);
                                 step++;
@@ -862,7 +865,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                                rotateServo.setPower(-0.1);
+                                rotateServo.setPower(0.15);
                                 sleep(250);
                                 step++;
                             }
@@ -870,11 +873,11 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 14 && parkingPosition != 3)
                         {
-                            rotateServo.setPower(-0.1);
+                            rotateServo.setPower(0.15);
                             sleep(500);
                             clawServo.setPower(0.2);
                             sleep(500);
-                            rotateServo.setPower(0.5);
+                            rotateServo.setPower(0.75);
                             clawServo.setPower(0.645);
                             step++;
                         }

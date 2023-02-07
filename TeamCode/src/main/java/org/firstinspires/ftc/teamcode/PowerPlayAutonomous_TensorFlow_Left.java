@@ -407,26 +407,26 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             step++;
                         }
 
-                        if (step == 5) // Pan over a smidgeon
+                        if (step == 6) // Pan over a smidgeon
                         {
                             driveDistance = 625;
 
-                            frontLeftMotor.setPower(0.32);
-                            frontRightMotor.setPower(-0.32);
-                            backLeftMotor.setPower(-0.32);
-                            backRightMotor.setPower(0.32);
+                            frontLeftMotor.setPower(-0.32);
+                            frontRightMotor.setPower(0.32);
+                            backLeftMotor.setPower(0.32);
+                            backRightMotor.setPower(-0.32);
 
-                            frontLeftMotor.setTargetPosition(driveDistance);
-                            frontRightMotor.setTargetPosition(-driveDistance);
-                            backLeftMotor.setTargetPosition(-driveDistance);
-                            backRightMotor.setTargetPosition(driveDistance);
+                            frontLeftMotor.setTargetPosition(-driveDistance);
+                            frontRightMotor.setTargetPosition(driveDistance);
+                            backLeftMotor.setTargetPosition(driveDistance);
+                            backRightMotor.setTargetPosition(-driveDistance);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() > (driveDistance - 5) && frontRightMotor.getCurrentPosition() < -(driveDistance - 5))
+                            if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 5) && frontRightMotor.getCurrentPosition() > (driveDistance - 5))
                             {
                                 sleep(250);
 
@@ -448,7 +448,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             }
                         }
 
-                        if (step == 6) // Make a sick 180 to get ready to pick up a cone
+                        if (step == 5) // Make a sick 180 to get ready to pick up a cone
                         {
                             driveDistance = 1535;
 
@@ -470,7 +470,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             liftMotor.setPower(-0.5);
                             liftMotor.setTargetPosition(1000);
 
-                            rotateServo.setPower(0.15);
+                            rotateServo.setPower(0.2);
                             clawServo.setPower(0.4);
 
                             if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 5) && frontRightMotor.getCurrentPosition() > (driveDistance - 5))
@@ -641,7 +641,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                rotateServo.setPower(0.15);
+                                rotateServo.setPower(0.2);
 
                                 sleep(250);
 
@@ -899,7 +899,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                                rotateServo.setPower(0.15);
+                                rotateServo.setPower(0.2);
                                 sleep(250);
                                 step++;
                             }
@@ -907,7 +907,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
 
                         if (step == 14 && parkingPosition != 1)
                         {
-                            rotateServo.setPower(0.15);
+                            rotateServo.setPower(0.2);
                             sleep(500);
                             clawServo.setPower(0.2);
                             sleep(500);

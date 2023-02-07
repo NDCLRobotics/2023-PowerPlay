@@ -288,7 +288,7 @@ public class PowerPlayTeleOp_Red extends OpMode
         }
         else if (gamepad2.square) // horizontal for cargo grip
         {
-            rotateServo.setPower(0.15);
+            rotateServo.setPower(0.2);
         }
 
         if (gamepad2.touchpad || autoHome)

@@ -671,7 +671,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                         if (step == 11) // return to base
                         {
 
-                            driveDistance = 620;
+                            driveDistance = 600;
 
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(0.32);

@@ -410,6 +410,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
 
                         if (step == 6) // Pan over a smidgeon
                         {
+                            rotateServo.setPower(0.25);
                             driveDistance = 625;
 
                             frontLeftMotor.setPower(-0.32);
@@ -526,7 +527,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                                 clawServo.setPower(0.645);
-                                
+
                                 sleep(500);
                                 rotateServo.setPower(0.8);
 

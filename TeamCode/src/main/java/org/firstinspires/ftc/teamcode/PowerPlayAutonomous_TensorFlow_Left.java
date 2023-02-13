@@ -408,7 +408,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             step++;
                         }
 
-                        if (step == 6) // Pan over a smidgeon
+                        if (step == 5) // Pan over a smidgeon
                         {
                             rotateServo.setPower(0.25);
                             driveDistance = 625;
@@ -449,7 +449,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             }
                         }
 
-                        if (step == 5) // Make a sick 180 to get ready to pick up a cone
+                        if (step == 6) // Make a sick 180 to get ready to pick up a cone
                         {
                             driveDistance = 1535;
                             rotateServo.setPower(0.825);

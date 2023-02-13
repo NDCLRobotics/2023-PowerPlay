@@ -452,6 +452,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                         if (step == 5) // Make a sick 180 to get ready to pick up a cone
                         {
                             driveDistance = 1535;
+                            rotateServo.setPower(0.825);
 
                             frontLeftMotor.setPower(-0.32);
                             frontRightMotor.setPower(0.32);
@@ -496,6 +497,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                         if (step == 7) // moves forward and picks up cone (2)
                         {
                             driveDistance = 1130;
+                            rotateServo.setPower(0.25);
 
                             frontLeftMotor.setPower(0.32);
                             frontRightMotor.setPower(0.32);

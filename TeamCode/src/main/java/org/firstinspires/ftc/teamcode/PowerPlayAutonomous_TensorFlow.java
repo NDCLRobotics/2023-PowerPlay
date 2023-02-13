@@ -284,7 +284,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                             liftMotor.setTargetPosition(3400);
 
-                            rotateServo.setPower(0.75);
+                            rotateServo.setPower(0.825);
                             clawServo.setPower(0.645);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -400,7 +400,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 frontRightMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                rotateServo.setPower(0.75);
+                                rotateServo.setPower(0.825);
 
 
 
@@ -436,7 +436,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                             liftMotor.setPower(-0.5);
                             liftMotor.setTargetPosition(1000);
 
-                            rotateServo.setPower(0.2);
+                            rotateServo.setPower(0.25);
                             clawServo.setPower(0.4);
 
                             if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 2) && frontRightMotor.getCurrentPosition() > (driveDistance - 2))
@@ -493,7 +493,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                                 clawServo.setPower(0.645);
                                 sleep(500);
-                                rotateServo.setPower(0.75);
+                                rotateServo.setPower(0.825);
 
                                 sleep(250);
                                 step++;
@@ -568,7 +568,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                rotateServo.setPower(0.75);
+                                rotateServo.setPower(0.825);
 
                                 sleep(250);
 
@@ -608,7 +608,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setPower(0.0);
                                 backRightMotor.setPower(0.0);
 
-                                rotateServo.setPower(0.2);
+                                rotateServo.setPower(0.25);
 
                                 sleep(250);
 
@@ -702,7 +702,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                                 clawServo.setPower(0.645);
                                 sleep(500);
-                                rotateServo.setPower(0.75);
+                                rotateServo.setPower(0.825);
 
                                 sleep(250);
                                 step++;
@@ -865,7 +865,7 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
                                 backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                                 backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-                                rotateServo.setPower(0.2);
+                                rotateServo.setPower(0.25);
                                 sleep(250);
                                 step++;
                             }
@@ -873,11 +873,11 @@ public class PowerPlayAutonomous_TensorFlow extends LinearOpMode {
 
                         if (step == 14 && parkingPosition != 3)
                         {
-                            rotateServo.setPower(0.2);
+                            rotateServo.setPower(0.25);
                             sleep(500);
-                            clawServo.setPower(0.2);
+                            clawServo.setPower(0.25);
                             sleep(500);
-                            rotateServo.setPower(0.75);
+                            rotateServo.setPower(0.825);
                             clawServo.setPower(0.645);
                             step++;
                         }

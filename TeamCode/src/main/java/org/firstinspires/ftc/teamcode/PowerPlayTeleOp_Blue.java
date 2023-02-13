@@ -277,7 +277,7 @@ public class PowerPlayTeleOp_Blue extends OpMode
 
         if (gamepad2.triangle) // Up position for claw
         {
-            rotateServo.setPower(0.75);
+            rotateServo.setPower(0.825);
             clawServo.setPower(0.645);
         }
         if (gamepad2.cross) // Down for cargo grip
@@ -286,7 +286,7 @@ public class PowerPlayTeleOp_Blue extends OpMode
         }
         else if (gamepad2.square) // horizontal for cargo grip
         {
-            rotateServo.setPower(0.2);
+            rotateServo.setPower(0.25);
         }
 
         if (gamepad2.touchpad || autoHome)

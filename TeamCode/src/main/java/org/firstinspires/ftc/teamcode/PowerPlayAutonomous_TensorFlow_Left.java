@@ -392,9 +392,6 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 clawServo.setPower(0.4);
 
                                 sleep(250);
-                                rotateServo.setPower(0.825);
-
-                                sleep(250);
                                 step++;
                             }
                         }

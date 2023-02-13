@@ -413,22 +413,22 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                             rotateServo.setPower(0.25);
                             driveDistance = 625;
 
-                            frontLeftMotor.setPower(-0.32);
-                            frontRightMotor.setPower(0.32);
-                            backLeftMotor.setPower(0.32);
-                            backRightMotor.setPower(-0.32);
+                            frontLeftMotor.setPower(0.32);
+                            frontRightMotor.setPower(-0.32);
+                            backLeftMotor.setPower(-0.32);
+                            backRightMotor.setPower(0.32);
 
-                            frontLeftMotor.setTargetPosition(-driveDistance);
-                            frontRightMotor.setTargetPosition(driveDistance);
-                            backLeftMotor.setTargetPosition(driveDistance);
-                            backRightMotor.setTargetPosition(-driveDistance);
+                            frontLeftMotor.setTargetPosition(driveDistance);
+                            frontRightMotor.setTargetPosition(-driveDistance);
+                            backLeftMotor.setTargetPosition(-driveDistance);
+                            backRightMotor.setTargetPosition(driveDistance);
 
                             frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                            if (frontLeftMotor.getCurrentPosition() < -(driveDistance - 5) && frontRightMotor.getCurrentPosition() > (driveDistance - 5))
+                            if (frontLeftMotor.getCurrentPosition() > (driveDistance - 5) && frontRightMotor.getCurrentPosition() < -(driveDistance - 5))
                             {
                                 sleep(250);
 

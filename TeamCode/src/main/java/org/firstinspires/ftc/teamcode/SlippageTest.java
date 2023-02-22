@@ -56,7 +56,7 @@ public class SlippageTest extends LinearOpMode {
     // Other
     private int driveDistance;
     private int step = 0;
-    private double speedMod = 0.2;
+    private double speedMod = 0.5;
     private int parkingPosition = 0;
 
     /*

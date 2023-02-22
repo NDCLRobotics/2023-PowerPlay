@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -14,6 +15,7 @@ import java.lang.Math;
 import java.util.Random;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -29,7 +31,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
-@Autonomous(name = "SlippageTest", group = "Concept")
+
+@TeleOp(name = "SlippageTest", group = "Concept")
+@Disabled
 public class SlippageTest extends LinearOpMode {
     // Control Hub
     /// Wheel Motors

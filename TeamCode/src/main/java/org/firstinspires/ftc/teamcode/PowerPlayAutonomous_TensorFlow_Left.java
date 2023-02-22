@@ -663,7 +663,7 @@ public class PowerPlayAutonomous_TensorFlow_Left extends LinearOpMode {
                                 liftMotor.setTargetPosition(2200);
                                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                                sleep(250);
+                                sleep(300);
                                 step++;
                             }
                         }
